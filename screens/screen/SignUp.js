@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,Text,TouchableOpacity, Alert } from 'react-native';
+import { View,Text,TouchableOpacity, Alert,TextInput } from 'react-native';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import {Form,Item,Label,Button,Icon, Input,Picker } from "native-base"
 import * as ImagePicker from 'expo-image-picker';
@@ -7,10 +7,11 @@ import Constants from 'expo-constants';
 import {MaterialCommunityIcons,AntDesign,Entypo} from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import axios from "axios";
-// import { Dropdown } from "react-native-material-dropdown";
+import AwesomeAlert from 'react-native-awesome-alerts';
 let baseUrl = `https://knekisan.com/`;
 // let baseUrl = `http://192.168.29.157:4000/`;
 export default class signUp extends React.Component{
+  
     constructor(props) {
         super(props);
         this.state = {
@@ -25,9 +26,9 @@ export default class signUp extends React.Component{
           land:"",
           area:"",
           comodity:"",
-          accNumber:"",
-          ifscCode:"",
-          accHolderName:"",
+          accNumber:"a",
+          ifscCode:"a",
+          accHolderName:"a",
           aadharNumber:"",
           pan:"",
           addressLine1:"",
@@ -37,6 +38,10 @@ export default class signUp extends React.Component{
           check1:null,
           check2:null,
           check3:null,
+          textInput: [],
+          inputData: [],
+          bankBttn:false,
+          showAlert:false
         };
       }
       componentDidMount() {
@@ -57,7 +62,7 @@ export default class signUp extends React.Component{
         }
       };
     
-      _pickImageProfile = async () => {
+      _pickImageProfileGallery = async () => {
         try {
           let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -67,11 +72,40 @@ export default class signUp extends React.Component{
           });
           if (!result.cancelled) {
             this.setState({ imageProfile: result.uri,check1:"check" });
+            this.setState({
+          showAlert: false
+        });
           }
     
           console.log(result);
         } catch (E) {
           console.log(E);
+          this.setState({
+          showAlert: false
+        });
+        }
+      };
+      _pickImageProfileCamera = async () => {
+        try {
+          let result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+          });
+          if (!result.cancelled) {
+            this.setState({ imageProfile: result.uri,check1:"check" });
+            this.setState({
+              showAlert: false
+            });
+          }
+    
+          console.log(result);
+        } catch (E) {
+          console.log(E);
+          this.setState({
+            showAlert: false
+          });
         }
       };
       _pickImageAadhar = async () => {
@@ -91,9 +125,16 @@ export default class signUp extends React.Component{
           console.log(E);
         }
       };
+      //user choice to select from gallary or camera
+      userChoice =()=>{
+        this.setState({
+          showAlert: true
+        });
+
+      }
       _pickImagePan = async () => {
         try {
-          let result = await ImagePicker.launchImageLibraryAsync({
+          let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [4, 3],
@@ -143,14 +184,100 @@ export default class signUp extends React.Component{
             this.props.nav.navigate("Home")
         }).
         catch((e)=>{
-            console.log(e);
-            
+            console.log(e.message);
+            Alert.alert("Duplicate registration is not allowed")
         })
         }
         else{
           Alert.alert("Invalid username or password")
         }
       }
+
+      
+
+
+
+      
+
+
+
+      // onChangeText={(text) => this.addValues(text, index)}
+      addTextInput = (index) => {
+        let textInput = this.state.textInput;
+
+        textInput.push(
+          <Item  floatingLabel>
+          <Label>Commodity</Label>
+          <Input 
+           onChangeText={(text) => this.addValues(text, index)}   
+          />
+          </Item>
+        );
+        this.setState({ textInput });
+      };
+    
+      //function to remove TextInput dynamically
+      removeTextInput = () => {
+        let textInput = this.state.textInput;
+        let inputData = this.state.inputData;
+        textInput.pop();
+        inputData.pop();
+        this.setState({ textInput, inputData });
+      };
+    
+      //function to add text from TextInputs into single array
+      addValues = (text, index) => {
+        let dataArray = this.state.inputData;
+        let checkBool = false;
+        if (dataArray.length !== 0) {
+          dataArray.forEach((element) => {
+            if (element.index === index) {
+              element.text = text;
+              checkBool = true;
+            }
+          });
+        }
+        if (checkBool) {
+          this.setState({
+            inputData: dataArray,
+          });
+        } else {
+          dataArray.push({ text: text, index: index });
+          this.setState({
+            inputData: dataArray,
+          });
+        }
+      };
+    
+      //function to console the output
+      getValues = () => {
+        console.log('Data ', JSON.stringify(this.state.inputData));
+        // alert(JSON.stringify(this.state.inputData))
+      };
+
+      checkBank = () =>{
+        if(
+          this.state.accNumber !== ""&&
+          this.state.accHolderName !== ""&&
+          this.state.ifscCode !== ""
+        ){
+          return false
+        }
+        else{
+          return true
+        }
+      }
+
+
+
+
+
+
+
+
+
+
+
     render(){
         let { image } = this.state;
         return(
@@ -273,16 +400,17 @@ export default class signUp extends React.Component{
           {/* </Form> */}
             </View>
         </ProgressStep>
-        <ProgressStep label="Land">
+        <ProgressStep 
+      
+        label="Land">
         <View style={{ backgroundColor:"#fff" }}>
             {/* <Form> */}
-            <View style={{flexDirection:"row"}}>
-            <View style={{flex:2}}>
+            <View style={{flexDirection:"row",flex:3}}>
+            <View >
             <Item floatingLabel
             
-            style={{width:100}}
+            style={{width:100,marginLeft:15}}
             >
-            {/* <Icon active name='home' /> */}
 
             <Label>Land</Label>
             <Input 
@@ -297,12 +425,11 @@ export default class signUp extends React.Component{
             />
             </Item>
             </View>
-            <View>
+            <View style={{marginLeft:0,flex:1}}>
             <Picker
               mode="dropdown"
-              iosHeader="Select User Type"
               iosIcon={<Icon name="arrow-down" />}
-              style={{ width:15 ,flex:2}}
+              style={{ width:100 }}
               selectedValue={this.state.selected}
               onValueChange={this.onValueChange.bind(this)}
             >
@@ -312,7 +439,43 @@ export default class signUp extends React.Component{
             </View>
             {/* <View style={{flex:1}}></View> */}
             </View>
-            <Item  floatingLabel>
+            <View>
+         
+         
+         
+          <View style={{alignItems:"center"}}>
+            <View style={{ margin: 10 }}>
+              <Button style={{width:200,justifyContent:"center"}} onPress={() => this.addTextInput(this.state.textInput.length)}>
+              <Text style={{color:"#fff"}}>
+                Add Commodity
+              </Text>
+              </Button>
+            </View>
+            <View style={{ margin: 10}}>
+              <Button style={{width:200,justifyContent:"center"}} onPress={() => this.removeTextInput()} >
+                <Text style={{color:"#fff"}}>Remove Commodity</Text>
+              </Button>
+            </View>
+          </View>
+          {this.state.textInput.map((value) => {
+            return value;
+          })}
+          {/* <Button title="Get Values" onPress={() => this.getValues()} /> */}
+        </View>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {/* <Item  floatingLabel>
             <Label>Commodity</Label>
             <Input 
                 value={this.state.comodity}
@@ -323,11 +486,14 @@ export default class signUp extends React.Component{
                 comodity=>this.setState({comodity})
                 }
             />
-            </Item>
+            </Item> */}
           {/* </Form> */}
             </View>
         </ProgressStep>
-        <ProgressStep label="Bank">
+        <ProgressStep 
+        nextBtnDisabled={this.checkBank()}
+        // nextBtnDisabled={this.state.bankBttn}
+        label="Bank">
         <View style={{ backgroundColor:"#fff" }}>
             {/* <Form> */}
             <Item floatingLabel>
@@ -402,7 +568,7 @@ export default class signUp extends React.Component{
          >
         <View style={{ backgroundColor:"#fff" }}>
             <Form style={{alignItems:"center",marginTop:20}}>
-            <TouchableOpacity onPress={this._pickImageProfile} style={{flexDirection:"row"}}>
+            <TouchableOpacity onPress={this.userChoice} style={{flexDirection:"row"}}>
             <MaterialCommunityIcons name="face-profile" size={26} color="black" />
                 <Text>
                 &nbsp;&nbsp;:Upload your photo
@@ -429,6 +595,25 @@ export default class signUp extends React.Component{
                 &nbsp;&nbsp;<Entypo name={this.state.check3} size={18} color="green"/>
                 </Text>
             </TouchableOpacity>
+            <AwesomeAlert
+                show={this.state.showAlert}
+                showProgress={false}
+                // title=""
+                message="How will you upload the documents?"
+                closeOnTouchOutside={true}
+                closeOnHardwareBackPress={false}
+                showCancelButton={true}
+                showConfirmButton={true}
+                cancelText="From Camera"
+                confirmText="From Gallery"
+                confirmButtonColor="#DD6B55"
+                onCancelPressed={() => {
+                  this._pickImageProfileCamera()
+                }}
+                onConfirmPressed={() => {
+                  this._pickImageProfileGallery()
+                }}
+              />
           </Form>
 
             </View>
