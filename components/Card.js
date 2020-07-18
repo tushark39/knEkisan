@@ -247,7 +247,7 @@ export const TransparentCard = (props) => (
 );
 
 export const ScrollHorizontalCardView = (props) => (
-    <View style={{width:"100%", height:320, paddingTop:7, paddingBottom:8, backgroundColor:"#fff", marginBottom:3}}>
+    <View style={{width:"100%", height:230, paddingTop:7, paddingBottom:8, backgroundColor:"#fff", marginBottom:3}}>
         <ImageBackground source={require("./../assets/horizontalcardbackground.jpg")} style={styles.image}>
             <ScrollView 
                 horizontal={true}

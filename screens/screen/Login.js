@@ -35,18 +35,28 @@ export default class Login extends React.Component{
           // this.storeData();
          AsyncStorage.setItem( "user",respone.data.id).
           then(async()=>{
-            Alert.alert("You've been Successfully logged in!")
-            this.props.nav.navigate("Home")
-            // this.props.navigation.goBack();
-          // let test= await AsyncStorage.getItem('user')
-          // console.log('test =+'+JSON.stringify(test));
-          
+            AsyncStorage.setItem('username',this.state.username)
+            .then(async()=>{
+              Alert.alert("You've been Successfully logged in!")
+              this.setState({
+                username:null,
+                password:null,
+                responce:null
+              })
+              // this.props.nav.navigate("Home")
+              // this.props.navigation.goBack();
+            // let test= await AsyncStorage.getItem('username')
+            // console.log('test :'+JSON.stringify(test));  
+            })
+            .catch((e)=>{
+              console.log('error setting user name : '+e);
+            })
           }).
           catch(e=>{
-            console.log('error \n\n\n : '+e);
+            console.log('error setting user id\n\n\n : '+e);
           })
         }).catch(e=>{
-          console.log('error : '+e);
+          console.log('error from backend: '+e);
           Alert.alert("Credentials not valid!")
           
         })

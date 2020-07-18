@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,11 +12,72 @@ import Category from './screens/category';
 import Search from './screens/search';
 import Offers from "./screens/offers";
 import Basket from "./screens/basket" ;
+import Profile from "./screens/Profile" ;
+import UpdateProfile from "./screens/UpdateProfile" ;
 import LoginSignup from './screens/login_signup';
 import Product_Description from "./screens/product_description";
 import Constant from 'expo-constants';
+import { AsyncStorage } from 'react-native';
+
 
 const Stack = createStackNavigator();
+
+
+
+class LoginCheck extends React.Component{
+  constructor(props) {
+  super(props);
+   
+  this.state = {
+    username:null
+  };
+   }
+  componentWillMount(){
+    this._checkLocalStorage();
+  }
+  _checkLocalStorage=async()=>{
+    let username= await AsyncStorage.getItem('username')
+    this.setState({username})
+  }
+
+  render() {
+    this._checkLocalStorage()
+    let BeforeLogin = <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-around', height:18 + Constant.statusBarHeight, backgroundColor:'#010101'}}>
+    <TouchableOpacity onPress={ () => this.props.nav.navigate('LoginSignup') } 
+                      activeOpacity={0.8} 
+                      style={{alignItems:'center', justifyContent:'center', height:30, width:100, borderWidth:1, borderColor:'#fff'}}>
+      <Text style={{fontSize:14, color:'#fff'}}>Login</Text>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={ () => this.props.nav.navigate('LoginSignup') } 
+                      activeOpacity={0.8} 
+                      style={{alignItems:'center', justifyContent:'center', height:30, width:100, borderWidth:1, borderColor:'#fff'}}>
+      <Text style={{fontSize:14, color:'#fff'}}>Signup</Text>
+    </TouchableOpacity>
+    </View>
+        let AfterLogin = <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-around', height:18 + Constant.statusBarHeight, backgroundColor:'#010101'}}>
+        <TouchableOpacity onPress={ () => {
+          AsyncStorage.removeItem('username')
+          .then(()=>{
+            this._checkLocalStorage();
+            Alert.alert("Logged out Sucessfully")
+            })
+          .catch(e=>console.log('logout error : '+e)
+          )
+        } } 
+        activeOpacity={0.8} 
+        style={{alignItems:'center', justifyContent:'center', height:30, width:100, borderWidth:1, borderColor:'#fff'}}>
+          <Text style={{fontSize:14, color:'#fff'}}>Logout</Text>
+        </TouchableOpacity>
+        </View>
+      if (this.state.username !== null) {
+        return AfterLogin
+      } else {
+        return BeforeLogin
+      }
+  }
+}  
+
+
 
 const HomeStack = () => {
   return (
@@ -28,6 +89,22 @@ const HomeStack = () => {
       <Stack.Screen name="Offers" component={Offers} options={{ headerShown: false }} />
       <Stack.Screen name="Basket" component={Basket} options={{ headerShown: false }} />
       <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
+      <Stack.Screen name="Profile" component={Profile} options={{ 
+        headerTitle:"My profile",
+        headerStyle:{
+          backgroundColor:"#689f39",
+        },
+        headerTitleAlign:"center",
+        headerTintColor:"#fff"
+       }} />
+        <Stack.Screen name="UpdateProfile" component={UpdateProfile} options={{ 
+        headerTitle:"Update Profile",
+        headerStyle:{
+          backgroundColor:"#689f39",
+        },
+        headerTitleAlign:"center",
+        headerTintColor:"#fff"
+       }} />
     </Stack.Navigator>
   );
 }
@@ -89,18 +166,7 @@ const CustomDrawer = (props) => {
     <View style={{ flex:1, backgroundColor:"#D3D3D3"}}>
       <View style={{top:0, left:0, right:0, height:Constant.statusBarHeight, backgroundColor:"#4CBB17"}}>
       </View>
-      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-around', height:18 + Constant.statusBarHeight, backgroundColor:'#010101'}}>
-        <TouchableOpacity onPress={ () => props.navigation.navigate('LoginSignup') } 
-                          activeOpacity={0.8} 
-                          style={{alignItems:'center', justifyContent:'center', height:30, width:100, borderWidth:1, borderColor:'#fff'}}>
-          <Text style={{fontSize:14, color:'#fff'}}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={ () => props.navigation.navigate('LoginSignup') } 
-                          activeOpacity={0.8} 
-                          style={{alignItems:'center', justifyContent:'center', height:30, width:100, borderWidth:1, borderColor:'#fff'}}>
-          <Text style={{fontSize:14, color:'#fff'}}>Signup</Text>
-        </TouchableOpacity>
-      </View>
+      <LoginCheck nav={props.navigation}/>
       <View style={{marginTop:5, paddingLeft:10, backgroundColor:'#fff', flexDirection:'row', height:60, alignItems:'center', justifyContent:'space-around'}}>
         <EvilIcons name="location" size={22} color="black" />
         <Text style={{fontSize:15}}>560004, Bangalore - 560004</Text>
