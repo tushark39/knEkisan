@@ -6,9 +6,13 @@ import SignUp from './screen/SignUp'
 import { AntDesign } from '@expo/vector-icons'
 import Constant from 'expo-constants';
 
-let Msg = <Login/>
+let Msg = ""
 export default class LoginSignup extends React.Component {
-
+componentWillMount(){
+  Msg =  <Login
+  nav={this.props.navigation}
+   />
+}
     static navigationOptions={
         
     }
