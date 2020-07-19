@@ -4,16 +4,32 @@ import {Ionicons, Feather,EvilIcons,MaterialCommunityIcons} from '@expo/vector-i
 import Constant from 'expo-constants';
 const { width } = Dimensions.get('window')
 const mycolor = "#212121" 
-
 export default class Search_Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchtext:""
+            searchtext:"",
+            products:[]
+
         }
         this.navigation = props.navigation
       }
-        
+      componentWillMount(){
+        this.getProducts();
+      }
+        getProducts = () =>{
+          axios.get(`${baseUrl}api/v1/product/getall`).
+          then((res)=>{
+             var products = res.data.data;
+              this.setState({products})
+              // var check = products[0].images[0]
+              // console.log(":1:\n\n :2: \n\n"+ JSON.stringify(check).substring(7).slice(0, -1) );
+            }).
+            catch(e=>{
+                Alert.alert('Error : '+ e);
+                
+            })
+          }
   render(){
     return (
         <View style={{

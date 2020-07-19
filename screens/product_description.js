@@ -25,14 +25,15 @@ export default class Product_Description extends React.Component {
             _productqualityParameter:[],
             _productId: "",
             _modalVisible:false,
-            bori: " ",
-            quality: " ",
-            weight: " ",
-            vehicleNo: " ",
-            driver: " ",
-            remarks: " ",
-            customer: " ",
-            product:" "
+            bori: "",
+            quality: "",
+            weight: "",
+            vehicleNo: "",
+            driver: "",
+            remarks: "",
+            customer: "",
+            product:"",
+            disabledButton: true
     
         };
          }
@@ -77,43 +78,46 @@ export default class Product_Description extends React.Component {
     sendEnquire= async (parameter,values,id)=>{
         // console.log('State check :\n\n\n\n\n '+JSON.stringify(this.state));
          let _userKey = await AsyncStorage.getItem('user')
-        if(
-            this.state.bori ===" "&&
-            this.state.quality ===" "&&
-            this.state.weight ===" "&&
-            this.state.vehicleNo ===" "&&
-            this.state.driver ===" "&&
-            this.state.remarks ===" "
-        ){
-           Alert.alert("Your Bad","Please fill in all the fields")
-        }
-        else{
-
-            axios.post(`${baseUrl}api/v1/inquiry/create/`,{
-                "bori": this.state.bori,
-                "quality": parameter,
-                "weight": values,
-                "vehicleNo": this.state.vehicleNo,
-                "driver": this.state.driver,
-                "remarks": this.state.remarks,
-                "customer": _userKey,
-                "product":id
-            }).
-            then((data)=>{
-                console.log("sucess : "+ data)
-                Alert.alert("Success","Inquiry sent! We will get back to you shortly.")
-                this.props.navigation.goBack();
-            }).
-            catch((e)=>{
-                console.log(e);
-                
-            })
-        }
-
+         axios.post(`${baseUrl}api/v1/inquiry/create/`,{
+            "bori": this.state.bori,
+            "quality": parameter,
+            "weight": values,
+            "vehicleNo": this.state.vehicleNo,
+            "driver": this.state.driver,
+            "remarks": this.state.remarks,
+            "customer": _userKey,
+            "product":id
+        }).
+        then((data)=>{
+            console.log("sucess : "+ data)
+            Alert.alert("Success","Inquiry sent! We will get back to you shortly.")
+            this.props.navigation.goBack();
+        }).
+        catch((e)=>{
+            console.log(e);
+            
+        })
         // Alert.alert("Sucess","We will contact you soon")
     }
+    // disabledButtonCheck=()=>{
+    //     if(
+    //         this.state.bori !== ""&&
+    //         this.state.weight !== ""&&
+    //         this.state.vehicleNo !== ""&&
+    //         this.state.driver !== ""&&
+    //         this.state.remarks !== ""
+    //     ){
+    //         // this.setState({disabledButton:false})
+    //         return false
+    //     }
+    //     else{
+    //         return true
+    //         // this.setState({disabledButton:true})
+    //     }
+    // }
+
   render(){
-      
+    //   this.disabledButtonCheck();
     //   console.log('test',this.state._productqualityParameter[0])
     
     return (
@@ -271,7 +275,7 @@ export default class Product_Description extends React.Component {
           <View>
                 <Text style={{fontSize:20,marginTop:35,textAlign:"center"}}>Enter Details</Text>
                 <Form style={{alignItems:"center"}}> 
-             <Item floatingLabel>
+             <Item floatingLabel >
                 <Label>Bori</Label>
                  <Input 
                 onChangeText={
@@ -312,6 +316,12 @@ export default class Product_Description extends React.Component {
                 />
             </Item>
             <Button 
+            disabled={
+            this.state.bori &&
+            this.state.weight &&
+            this.state.vehicleNo &&
+            this.state.driver ? false : true}
+            
             onPress={()=>{
                 this.sendEnquire(
                  this.state._productqualityParameter.parameter,
@@ -319,7 +329,13 @@ export default class Product_Description extends React.Component {
                  this.state._productId
             );
             }}
-            style={{justifyContent:"center",marginTop:35,width:200,borderRadius:30}}
+            style={{justifyContent:"center",marginTop:35,width:200,borderRadius:30,
+            backgroundColor:
+            this.state.bori &&
+            this.state.weight &&
+            this.state.vehicleNo &&
+            this.state.driver &&
+            this.state.remarks  ? "green" : "gray"}}
             success>
                 <Text style={{color:"#fff"}}>Send Enquiry</Text>
             </Button>

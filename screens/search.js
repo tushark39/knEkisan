@@ -3,7 +3,6 @@ import { StyleSheet, Text, ScrollView, Dimensions, Image, View,TouchableOpacity 
 import Search_Header from "../components/Search_Header";
 import { Card,Button,Item,Label,Input } from "native-base";
 import axios from "axios";
-
 const { width , height} = Dimensions.get('window')
 let baseUrl =`https://knekisan.com/`
 

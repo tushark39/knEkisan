@@ -8,8 +8,8 @@ import {MaterialCommunityIcons,AntDesign,Entypo} from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import axios from "axios";
 import AwesomeAlert from 'react-native-awesome-alerts';
-let baseUrl = `https://knekisan.com/`;
-// let baseUrl = `http://192.168.29.157:4000/`;
+// let baseUrl = `https://knekisan.com/`;
+let baseUrl = `http://192.168.29.157:4000/`;
 export default class signUp extends React.Component{
   
     constructor(props) {
@@ -19,29 +19,30 @@ export default class signUp extends React.Component{
           imageProfile: null,
           imageAadhar: null,
           imagePan: null,
-          fullName:"",
-          username:"",
-          password:"",
-          mNumber:"",
-          land:"",
-          area:"",
-          comodity:"",
+          fullName:"Demo",
+          username:"demochecktushartest69",
+          password:"123456789",
+          mNumber:"7009520799",
+          land:"200",
+          area:"sq",
+          comodity:[],
           accNumber:"a",
           ifscCode:"a",
           accHolderName:"a",
-          aadharNumber:"",
-          pan:"",
-          addressLine1:"",
-          addressLine2:"",
-          uState:'',
-          uCity:"",
+          aadharNumber:"6207778654",
+          pan:"check0555c",
+          addressLine1:"a",
+          addressLine2:"a",
+          uState:'a',
+          uCity:"a",
           check1:null,
           check2:null,
           check3:null,
           textInput: [],
           inputData: [],
           bankBttn:false,
-          showAlert:false
+          showAlert:false,
+          imageCheck:null
         };
       }
       componentDidMount() {
@@ -51,6 +52,11 @@ export default class signUp extends React.Component{
         this.setState({
           selected: value,
           image: null,
+        });
+      }
+      onValueChangeArea(value) {
+        this.setState({
+          area : value
         });
       }
       getPermissionAsync = async () => {
@@ -92,9 +98,12 @@ export default class signUp extends React.Component{
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
+            base64:true
           });
           if (!result.cancelled) {
-            this.setState({ imageProfile: result.uri,check1:"check" });
+            console.log('result  : '+result.uri);
+            
+            this.setState({ imageProfile: result.uri,imageCheck:result,check1:"check" });
             this.setState({
               showAlert: false
             });
@@ -151,9 +160,11 @@ export default class signUp extends React.Component{
       };
       submitData=(fullName,username,password,mNumber,land,area,comodity,accNumber,ifscCode,accHolderName,aadharNumber,pan,selected,image)=>{
         if(
-          this.state.username !==""&&
-          this.state.password !==""
-        ){
+          this.state.username !== ""&&
+          this.state.password !== ""
+        )
+        
+        {
           axios.post(`${baseUrl}api/v1/authentication/register/`,{
             "userType": selected,
             "userName": username,
@@ -164,24 +175,50 @@ export default class signUp extends React.Component{
             "city": this.state.uCity,
             "mobile": mNumber,
             "landArea": land,
-            "landAreaType": "accassre",
+            "landAreaType": area,
             "commodity": comodity,
             "bankDetails": {
                 "accHolderName":accHolderName,
                 "ifscCode":ifscCode,
                 "accNumber":accNumber
             },
-            "documentsUploaded": [
-                {"profile" : image}
-            ],
+            "documentsUploaded": [],
             "emailNotification": true,
             "pushNotification": true,
             "admin": false
-        }).
+          }).
         then((data)=>{
-            console.log("sucess : "+ data)
+           let _id = data.data._id
+          //  console.log('id : '+_id);
+          // const form = new FormData();
+          // form.append('document', this.state.imageProfile );
+          const formData = new FormData();
+            formData.append("document", {
+                uri: this.state.imageProfile,
+                name: "image",
+                type: "image/jpg",
+            });
+            console.log('form data\n\n\n'+JSON.stringify(formData));
+            
+           axios.post(`${baseUrl}api/v1/users/upload/5f11e1307a0bf416cec63c26`,
+             {
+              // method: "POST",
+              Accept: 'application/json',
+              headers: {
+                  "Content-Type": "multipart/form-data",
+              },
+              body: formData,
+             }
+           )
+           .then((response)=>{
+             console.log('Uploading Image : '+JSON.stringify(response));
+             
             Alert,alert("User Regestered Sucessfully")
             this.props.nav.navigate("Home")
+           })
+           .catch((err)=>{
+             console.log('error in uploading image : '+err);
+           })
         }).
         catch((e)=>{
             console.log(e.message);
@@ -189,19 +226,9 @@ export default class signUp extends React.Component{
         })
         }
         else{
-          Alert.alert("Invalid username or password")
+          Alert.alert("Invalid Usermane or Password")
         }
       }
-
-      
-
-
-
-      
-
-
-
-      // onChangeText={(text) => this.addValues(text, index)}
       addTextInput = (index) => {
         let textInput = this.state.textInput;
 
@@ -251,7 +278,12 @@ export default class signUp extends React.Component{
     
       //function to console the output
       getValues = () => {
-        console.log('Data ', JSON.stringify(this.state.inputData));
+        // Alert.alert("check ,me")
+        this.setState({
+          comodity:this.state.inputData.map(ob=>ob.text)
+          // comodity:JSON.stringify(this.state.inputData.map(ob=>ob.text))
+        })
+        console.log('Data \n\n\n\n\n\n', JSON.stringify(this.state.inputData.map(ob=>ob.text)));
         // alert(JSON.stringify(this.state.inputData))
       };
 
@@ -267,22 +299,30 @@ export default class signUp extends React.Component{
           return true
         }
       }
-
-
-
-
-
-
-
-
-
-
-
+      checUser=()=>{
+        if(
+          this.state.fullName !== "" &&
+          this.state.username !== "" &&
+          this.state.password !== "" &&
+          this.state.mNumber !== "" &&
+          this.state.addressLine1 !== "" &&
+          this.state.addressLine2 !== "" &&
+          this.state.uCity !== "" &&
+          this.state.uState
+        ){
+          return false
+        }
+        else{
+          return true
+        }
+      }
     render(){
         let { image } = this.state;
         return(
     <ProgressSteps >
-        <ProgressStep label="User">
+        <ProgressStep 
+        nextBtnDisabled={this.checUser()}
+        label="User">
             <View style={{ backgroundColor:"#fff" }}>
             {/* <Form> */}
             <Picker
@@ -401,7 +441,7 @@ export default class signUp extends React.Component{
             </View>
         </ProgressStep>
         <ProgressStep 
-      
+        onNext = {this.getValues}
         label="Land">
         <View style={{ backgroundColor:"#fff" }}>
             {/* <Form> */}
@@ -430,7 +470,7 @@ export default class signUp extends React.Component{
               mode="dropdown"
               iosIcon={<Icon name="arrow-down" />}
               style={{ width:100 }}
-              selectedValue={this.state.selected}
+              selectedValue={this.state.area}
               onValueChange={this.onValueChange.bind(this)}
             >
               <Picker.Item label="sq" value="sq" />
@@ -462,19 +502,6 @@ export default class signUp extends React.Component{
           })}
           {/* <Button title="Get Values" onPress={() => this.getValues()} /> */}
         </View>
-
-
-
-
-
-
-
-
-
-
-
-
-
             {/* <Item  floatingLabel>
             <Label>Commodity</Label>
             <Input 
