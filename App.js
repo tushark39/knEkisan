@@ -87,7 +87,7 @@ const HomeStack = () => {
       <Stack.Screen name="Login" component={LoginSignup} options={{ headerShown: false }} />
       <Stack.Screen name="Category" component={Category} options={{ headerShown: false }} />
       <Stack.Screen name="Offers" component={Offers} options={{ headerShown: false }} />
-      <Stack.Screen name="Basket" component={Basket} options={{ headerShown: false }} />
+      {/* <Stack.Screen name="Basket" component={Basket} options={{ headerShown: false }} /> */}
       <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
       <Stack.Screen name="Profile" component={Profile} options={{ 
         headerTitle:"My profile",
@@ -146,13 +146,13 @@ const HomeTab = () => {
                       ),
                     }}
           />
-          <Tab.Screen name="Basket" component={Basket} 
+          {/* <Tab.Screen name="Basket" component={Basket} 
                     options={{
                       tabBarIcon: () => (
                         <Fontisto name="shopping-basket" size={24} color="black" />
                       ),
                     }}
-          />
+          /> */}
         </Tab.Navigator>
   )
 }
@@ -167,7 +167,7 @@ const CustomDrawer = (props) => {
       <View style={{top:0, left:0, right:0, height:Constant.statusBarHeight, backgroundColor:"#4CBB17"}}>
       </View>
       <LoginCheck nav={props.navigation}/>
-      <View style={{marginTop:5, paddingLeft:10, backgroundColor:'#fff', flexDirection:'row', height:60, alignItems:'center', justifyContent:'space-around'}}>
+      {/* <View style={{marginTop:5, paddingLeft:10, backgroundColor:'#fff', flexDirection:'row', height:60, alignItems:'center', justifyContent:'space-around'}}>
         <EvilIcons name="location" size={22} color="black" />
         <Text style={{fontSize:15}}>560004, Bangalore - 560004</Text>
         <Feather name="edit-2" size={20} color="#4CBB17" style={{marginLeft:15}} />
@@ -186,11 +186,11 @@ const CustomDrawer = (props) => {
           />
           <Text style={{fontSize:13}}>   Tomorrow 6:30AM -8:30AM</Text>
         </View>
-      </View>
-      <View style={{flexDirection:'row', height:60, backgroundColor:'#d0f0c0', justifyContent:'space-around', alignItems:'center'}}>
+      </View> */}
+      {/* <View style={{flexDirection:'row', height:60, backgroundColor:'#d0f0c0', justifyContent:'space-around', alignItems:'center'}}>
         <Text style={{fontSize:13, color:'green', width:200}}>Get Priority slots with bbstar memebership</Text>
         <AntDesign name="caretright" size={18} color="green" />
-      </View>
+      </View> */}
       <ScrollView style={{marginTop:5, paddingVertical:10, paddingHorizontal:20, backgroundColor:'#fff'}}>
         <TouchableOpacity onPress={() => props.navigation.navigate('Home')}>
           <Text style={{fontSize:18, marginBottom:20}}>Home</Text>
@@ -201,9 +201,9 @@ const CustomDrawer = (props) => {
         <TouchableOpacity onPress={() => props.navigation.navigate('Category')}>
           <Text style={{fontSize:18, marginBottom:20}}>Categories</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => props.navigation.navigate('Basket')}>
+        {/* <TouchableOpacity onPress={() => props.navigation.navigate('Basket')}>
           <Text style={{fontSize:18, marginBottom:20}}>Shop By Basket</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         
       </ScrollView>
     </View>
@@ -220,7 +220,7 @@ export default class App extends React.Component {
           <Drawer.Screen name="LoginSignup" component={LoginSignup} />
           <Drawer.Screen name="Category" component={Category} />
           <Drawer.Screen name="Offers" component={Offers} />
-          <Drawer.Screen name="Basket" component={Basket} />
+          {/* <Drawer.Screen name="Basket" component={Basket} /> */}
         </Drawer.Navigator>
 
         

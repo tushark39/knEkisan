@@ -37,11 +37,11 @@ export class Header extends React.Component{
         let msg = null
         if (this.state.username !==null) {
             Id = this.state.username
-            msg = "Welcome User"
+            msg = "Welcome : "
         }
         else{
-            msg = "Your Location"
-            Id = "5600004, Bangalore"
+            msg = ""
+            Id = ""
         }
         return (
             <View style={{
@@ -65,11 +65,13 @@ export class Header extends React.Component{
                 </TouchableOpacity>
                  
                  <View>
-                     <Text style={{color:"#fff"}}>{msg}</Text>
-                     <Text style={{color:"#fff"}}>{Id}</Text>
+                     <Text style={{color:"#fff"}}>{msg} {Id}</Text>
+                     {/* <Text style={{color:"#fff"}}>{Id}</Text> */}
                  </View>
                  <TouchableOpacity
-                 onPress={()=>this.props.navigation.navigate("Profile")}
+                 onPress={()=>this.state.username !== null ? 
+                 this.props.navigation.navigate("Profile") : this.props.navigation.navigate("LoginSignup")
+                 }
                  ><FontAwesome5 name="user-circle" size={30} color="white" /></TouchableOpacity>
               </View>
               <View style={{flexDirection:"row" ,height: 35, width:width-30, backgroundColor: "#fff", borderRadius:5, marginHorizontal:15}}>

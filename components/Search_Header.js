@@ -2,8 +2,11 @@ import React from 'react';
 import { StyleSheet, TextInput, Text, View, Dimensions, TouchableOpacity } from 'react-native';
 import {Ionicons, Feather,EvilIcons,MaterialCommunityIcons} from '@expo/vector-icons';
 import Constant from 'expo-constants';
+import axios from "axios";
 const { width } = Dimensions.get('window')
 const mycolor = "#212121" 
+let baseUrl = `https://knekisan.com/`;
+
 export default class Search_Header extends React.Component {
     constructor(props) {
         super(props);

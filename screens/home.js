@@ -10,7 +10,7 @@ const { width } = Dimensions.get('window')
 export default class Home extends React.Component {
 
   state={
-    loading:true,
+    loading:false,
     refreshing:false,
     data:[],
     list: [

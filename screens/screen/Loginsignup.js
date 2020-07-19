@@ -3,9 +3,11 @@ import { StyleSheet, Text, ScrollView, Dimensions, Image, View, TouchableOpacity
 const { width , height} = Dimensions.get('window')
 import Login from './Login'
 import SignUp from './SignUp'
-let Msg = <Login/>
+let Msg = ""
 export default class LoginSignup extends React.Component {
-
+componentWillMount(){
+    Msg = <Login  nav={this.props.navigation}/>
+}
     static navigationOptions={
         
     }

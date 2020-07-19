@@ -3,7 +3,28 @@ import { Image,View } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right,List,ListItem } from 'native-base';
 import { EvilIcons,Entypo,SimpleLineIcons,MaterialCommunityIcons,AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { AsyncStorage } from 'react-native';
+
 export default class CardImageExample extends Component {
+  constructor(props) {
+    super(props);
+     
+    this.state = {
+        username: "",
+        ucity:"",
+        uState:""
+    };
+     }
+componentWillMount(){
+    this._checklogin()
+}
+_checklogin = async () =>{
+    let test= await AsyncStorage.getItem('username')
+    console.log('test\n\n\n\n\n\n\n\n\n :'+JSON.stringify(test));
+    this.setState({
+        username:test
+    }) 
+}
   render() {
     return (
     <Container>
@@ -24,9 +45,9 @@ export default class CardImageExample extends Component {
               <Left style={{flex:1}}>
                 <Thumbnail source={require('../assets/home-2.png')} />
                 <Body>
-                  <Text style={{color:"#fff"}}>Tushar</Text>
+                  <Text style={{color:"#fff"}}>{this.state.username}</Text>
                   {/* <Text style={{color:"#fff"}} note>tushark39@gmail.com</Text> */}
-                  <Text style={{color:"#fff"}} note>7004659787</Text>
+                  {/* <Text style={{color:"#fff"}} note>7004659787</Text> */}
                 </Body>
               </Left>
               <Right style={{flex:1}}>
@@ -42,8 +63,8 @@ export default class CardImageExample extends Component {
               <Left>
               <EvilIcons name="location" size={48} color="red" />
                 <Body>
-                  <Text style={{color:"#000"}}>Jamshedpur</Text>
-                  <Text style={{color:"#000"}} note>Jharkhand</Text>
+                  <Text style={{color:"#000"}}>{this.state.ucity}</Text>
+                  <Text style={{color:"#000",marginTop:20}} note>{this.state.uState}</Text>
                 </Body>
               </Left>
               <Right>
@@ -59,13 +80,13 @@ export default class CardImageExample extends Component {
           
         </Content>
      
-        <Content style={{marginTop:-120}}>
+        <Content style={{marginTop:-50}}>
           <List>
             <ListItem>
               <Entypo name="back-in-time" size={24} color="black" />
-              <TouchableOpacity><Text> &nbsp;My Orders</Text></TouchableOpacity>
+              <TouchableOpacity><Text> &nbsp;My Inquiry</Text></TouchableOpacity>
             </ListItem>
-            <ListItem>
+            {/* <ListItem>
             <Left>
               <SimpleLineIcons name="wallet" size={24} color="black" />
               <TouchableOpacity><Text> &nbsp;My Wallet</Text></TouchableOpacity>
@@ -73,13 +94,13 @@ export default class CardImageExample extends Component {
             <Right>
                 <Text style={{color:"#689f39"}}>Rs 0.0</Text>
             </Right>
-            </ListItem>
+            </ListItem> */}
             <ListItem>
               <Entypo name="credit-card" size={24} color="black" />
 
-              <TouchableOpacity><Text> &nbsp;My Payments</Text></TouchableOpacity>
+              <TouchableOpacity><Text> &nbsp;Payment Notifications</Text></TouchableOpacity>
             </ListItem>
-            <ListItem>
+            {/* <ListItem>
               <SimpleLineIcons name="bubbles" size={24} color="black" />
               <TouchableOpacity><Text> &nbsp;My Ratings & Reviews</Text></TouchableOpacity>
             </ListItem>
@@ -94,11 +115,15 @@ export default class CardImageExample extends Component {
             <ListItem>
               <SimpleLineIcons name="location-pin" size={24} color="black" />
               <TouchableOpacity><Text> &nbsp;My Delivery Address</Text></TouchableOpacity>
-            </ListItem>
+            </ListItem>*/}
             <ListItem>
               <AntDesign name="logout" size={24} color="black" />
-              <TouchableOpacity><Text> &nbsp;Logout</Text></TouchableOpacity>
-            </ListItem>
+              <TouchableOpacity
+              onPress={()=>{
+                AsyncStorage.removeItem('username').then(()=>this.props.navigation.replace("Home"))
+              }}
+              ><Text> &nbsp;Logout</Text></TouchableOpacity>
+            </ListItem> 
           </List>
         </Content>
       </Container>

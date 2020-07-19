@@ -8,8 +8,10 @@ import {MaterialCommunityIcons,AntDesign,Entypo} from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import axios from "axios";
 import AwesomeAlert from 'react-native-awesome-alerts';
-// let baseUrl = `https://knekisan.com/`;
-let baseUrl = `http://192.168.29.157:4000/`;
+// import RNFetchBlob from 'react-native-fetch-blob'
+// import {  } from "react-native-fetch-blob";
+let baseUrl = `https://knekisan.com/`;
+// let baseUrl = `http://192.168.29.157:4000/`;
 export default class signUp extends React.Component{
   
     constructor(props) {
@@ -19,22 +21,22 @@ export default class signUp extends React.Component{
           imageProfile: null,
           imageAadhar: null,
           imagePan: null,
-          fullName:"Demo",
-          username:"demochecktushartest69",
-          password:"123456789",
-          mNumber:"7009520799",
-          land:"200",
+          fullName:"",
+          username:"",
+          password:"",
+          mNumber:"",
+          land:"",
           area:"sq",
-          comodity:[],
-          accNumber:"a",
-          ifscCode:"a",
-          accHolderName:"a",
-          aadharNumber:"6207778654",
-          pan:"check0555c",
-          addressLine1:"a",
-          addressLine2:"a",
-          uState:'a',
-          uCity:"a",
+          comodity:null,
+          accNumber:"",
+          ifscCode:"",
+          accHolderName:"",
+          aadharNumber:"",
+          pan:"",
+          addressLine1:"",
+          addressLine2:"",
+          uState:'',
+          uCity:"",
           check1:null,
           check2:null,
           check3:null,
@@ -82,7 +84,6 @@ export default class signUp extends React.Component{
           showAlert: false
         });
           }
-    
           console.log(result);
         } catch (E) {
           console.log(E);
@@ -101,7 +102,7 @@ export default class signUp extends React.Component{
             base64:true
           });
           if (!result.cancelled) {
-            console.log('result  : '+result.uri);
+            console.log('result  : '+ result.uri);
             
             this.setState({ imageProfile: result.uri,imageCheck:result,check1:"check" });
             this.setState({
@@ -187,18 +188,33 @@ export default class signUp extends React.Component{
             "pushNotification": true,
             "admin": false
           }).
-        then((data)=>{
+        then(async(data)=>{
            let _id = data.data._id
-          //  console.log('id : '+_id);
-          // const form = new FormData();
-          // form.append('document', this.state.imageProfile );
           const formData = new FormData();
             formData.append("document", {
                 uri: this.state.imageProfile,
                 name: "image",
                 type: "image/jpg",
             });
-            console.log('form data\n\n\n'+JSON.stringify(formData));
+            // console.log('form data\n\n\n'+JSON.stringify(formData));
+          
+          // let ret = await RNFetchBlob.fetch(
+          //   'POST',
+          //   `${baseUrl}api/v1/users/upload/5f11e1307a0bf416cec63c26`,
+          //   {
+          //     'Content-Type': 'multipart/form-data',
+          //     'x-auth': token, 
+          //   },
+          //   [
+          //     {
+          //       name: 'image',
+          //       filename: Date.now() + '.png',
+          //       type: 'image/png',
+          //       data: RNFetchBlob.wrap(this.state.imageProfile),
+          //     },
+          //   ],
+          // )
+          // return ret
             
            axios.post(`${baseUrl}api/v1/users/upload/5f11e1307a0bf416cec63c26`,
              {
@@ -280,8 +296,8 @@ export default class signUp extends React.Component{
       getValues = () => {
         // Alert.alert("check ,me")
         this.setState({
-          comodity:this.state.inputData.map(ob=>ob.text)
-          // comodity:JSON.stringify(this.state.inputData.map(ob=>ob.text))
+          // comodity:this.state.inputData.map(ob=>ob.text)
+          comodity:JSON.stringify(this.state.inputData.map(ob=>ob.text))
         })
         console.log('Data \n\n\n\n\n\n', JSON.stringify(this.state.inputData.map(ob=>ob.text)));
         // alert(JSON.stringify(this.state.inputData))
@@ -341,7 +357,7 @@ export default class signUp extends React.Component{
             <Label>Full Name</Label>
             <Input 
             style={{
-            
+             
             }}
                 value={this.state.fullName}
                 autoCorrect={false}
@@ -352,7 +368,9 @@ export default class signUp extends React.Component{
                 }
             />
             </Item>
-            <Item  floatingLabel>
+            <Item 
+            style={{marginTop:10}}
+             floatingLabel>
             <Label>User Name</Label>
             <Input 
                 value={this.state.username}
@@ -364,7 +382,9 @@ export default class signUp extends React.Component{
                 }
             />
             </Item>
-            <Item  floatingLabel>
+            <Item 
+            style={{marginTop:10}}
+             floatingLabel>
             <Label>Password</Label>
             <Input 
                 value={this.state.password}
@@ -377,7 +397,9 @@ export default class signUp extends React.Component{
                 }
             />
             </Item>
-            <Item  floatingLabel>
+            <Item 
+            style={{marginTop:10}}
+             floatingLabel>
             <Label>Mobile Number</Label>
             <Input 
                 value={this.state.mNumber}
@@ -389,7 +411,9 @@ export default class signUp extends React.Component{
                 }
             />
             </Item>
-            <Item  floatingLabel>
+            <Item 
+            style={{marginTop:10}}
+             floatingLabel>
             <Label>Address 1</Label>
             <Input 
                 value={this.state.addressLine1}
@@ -401,7 +425,9 @@ export default class signUp extends React.Component{
                 }
             />
             </Item>
-            <Item  floatingLabel>
+            <Item 
+            style={{marginTop:10}}
+             floatingLabel>
             <Label>Address 2</Label>
             <Input 
                 value={this.state.addressLine2}
@@ -413,7 +439,9 @@ export default class signUp extends React.Component{
                 }
             />
             </Item>
-            <Item  floatingLabel>
+            <Item 
+            style={{marginTop:10}}
+             floatingLabel>
             <Label>City</Label>
             <Input 
                 value={this.state.uCity}
@@ -425,7 +453,9 @@ export default class signUp extends React.Component{
                 }
             />
             </Item>
-            <Item  floatingLabel>
+            <Item 
+            style={{marginTop:10}}
+             floatingLabel>
             <Label>State</Label>
             <Input 
                 value={this.state.uState}

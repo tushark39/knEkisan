@@ -254,7 +254,7 @@ export const ScrollHorizontalCardView = (props) => (
                 showsHorizontalScrollIndicator={false}
             >
                 <ScrollHorizontalCard navigation={props.navigation}/>
-                <TransparentCard navigation={props.navigation}/>
+                {/* <TransparentCard navigation={props.navigation}/> */}
             </ScrollView>
         </ImageBackground>
     </View>
@@ -322,7 +322,7 @@ export const ScrollHorizontal_Product_SuggestionView = (props) => (
             <ScrollHorizontal_Product_Suggestion navigation={props.navigation}/>
             <ScrollHorizontal_Product_Suggestion navigation={props.navigation}/>
             <ScrollHorizontal_Product_Suggestion navigation={props.navigation}/>
-            <TransparentCard navigation={props.navigation}/>
+            {/* <TransparentCard navigation={props.navigation}/> */}
         </ScrollView>
     </View>
 );

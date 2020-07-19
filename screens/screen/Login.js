@@ -43,7 +43,7 @@ export default class Login extends React.Component{
                 password:null,
                 responce:null
               })
-              // this.props.nav.navigate("Home")
+              this.props.nav.navigate("Home")
               // this.props.navigation.goBack();
             // let test= await AsyncStorage.getItem('username')
             // console.log('test :'+JSON.stringify(test));  
@@ -91,9 +91,9 @@ export default class Login extends React.Component{
             <View style={{alignItems:"center"}}>
             <Button 
             onPress={()=>this.loginSubmit()}
-            style={{width:150,marginTop:30,justifyContent:"center"}}
+            style={{width:150,marginTop:45,justifyContent:"center",backgroundColor:"green"}}
             >
-                <Text style={{textAlign:"center"}}>Login</Text>
+                <Text style={{textAlign:"center",color:"#fff"}}>Login</Text>
             </Button>
             </View>
             </View>
