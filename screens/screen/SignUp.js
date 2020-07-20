@@ -23,9 +23,9 @@ export default class signUp extends React.Component{
           imageAadhar: null,
           imagePan: null,
           fullName:"a",
-          username:"testadotableshar",
+          username:"danidaniels",
           password:"123456789",
-          mNumber:"6207620896523",
+          mNumber:"620997717",
           land:"1",
           area:"sq",
           comodity:null,
@@ -45,7 +45,6 @@ export default class signUp extends React.Component{
           inputData: [],
           bankBttn:false,
           showAlert:false,
-          imageCheck:null
         };
       }
       componentDidMount() {
@@ -69,8 +68,7 @@ export default class signUp extends React.Component{
             alert('Sorry, we need camera roll permissions to make this work!');
           }
         }
-      };
-    
+      };    
       _pickImageProfileGallery = async () => {
         try {
           let result = await ImagePicker.launchImageLibraryAsync({
@@ -78,19 +76,41 @@ export default class signUp extends React.Component{
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
+            base64:true
           });
           if (!result.cancelled) {
-            this.setState({ imageProfile: result.uri,check1:"check" });
+            console.log('result  : '+ result.uri);
+            
+            let newFile = {
+              uri : result.uri,
+              type:`test/${result.uri.split(".")[1]}`,
+              name:`test.${result.uri.split(".")[1]}`
+            }
+
+            const data = new FormData();
+            data.append('file',newFile)
+            data.append('upload_preset','UserProfile')
+            data.append("cloud_name","dd0txohwe")
+            fetch("https://api.cloudinary.com/v1_1/dd0txohwe/image/upload",{
+              method:"POST",
+              body:data
+            })
+            .then(res=>res.json())
+            .then(data=>{
+              console.log('cloudinary: \n\n\n\n\n\n\n\n\n'+ data.url);
+              this.setState({imageProfile: data.url,check1:"check" })
+            })
             this.setState({
-          showAlert: false
-        });
+              showAlert: false
+            });
           }
+    
           console.log(result);
         } catch (E) {
           console.log(E);
           this.setState({
-          showAlert: false
-        });
+            showAlert: false
+          });
         }
       };
       _pickImageProfileCamera = async () => {
@@ -105,7 +125,25 @@ export default class signUp extends React.Component{
           if (!result.cancelled) {
             console.log('result  : '+ result.uri);
             
-            this.setState({ imageProfile: result.uri,imageCheck:result,check1:"check" });
+            let newFile = {
+              uri : result.uri,
+              type:`test/${result.uri.split(".")[1]}`,
+              name:`test.${result.uri.split(".")[1]}`
+            }
+
+            const data = new FormData();
+            data.append('file',newFile)
+            data.append('upload_preset','UserProfile')
+            data.append("cloud_name","dd0txohwe")
+            fetch("https://api.cloudinary.com/v1_1/dd0txohwe/image/upload",{
+              method:"POST",
+              body:data
+            })
+            .then(res=>res.json())
+            .then(data=>{
+              console.log('cloudinary: \n\n\n\n\n\n\n\n\n'+ data.url);
+              this.setState({imageProfile:data.url,check1:"check"})
+            })
             this.setState({
               showAlert: false
             });
@@ -119,6 +157,35 @@ export default class signUp extends React.Component{
           });
         }
       };
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////upload image to cloudinary////////////////////////////////////////
+      //  handleUpload = (image)=>{
+      //   const data = new FormData();
+      //   data.append('file',image)
+      //   data.append('upload_preset','UserProfile')
+      //   data.append("cloud_name","dd0txohwe")
+      //   fetch("https://api.cloudinary.com/v1_1/dd0txohwe/image/upload",{
+      //     method:"POST",
+      //     body:data
+      //   })
+      //   .then(res=>res.json())
+      //   .then(data=>{
+      //     console.log('cloudinary: \n\n\n\n\n\n\n\n\n'+ data.url);
+      //     this.setState({imageProfile:data.url})
+      //   })
+      // }
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+
+//user choice to select from gallary or camera
+     userChoice =()=>{
+      this.setState({
+        showAlert: true
+      });
+
+    }
       _pickImageAadhar = async () => {
         try {
           let result = await ImagePicker.launchImageLibraryAsync({
@@ -126,132 +193,116 @@ export default class signUp extends React.Component{
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
+            base64:true
           });
           if (!result.cancelled) {
-            this.setState({ imageAadhar: result.uri ,check2:"check"});
+            console.log('result  : '+ result.uri);
+            
+            let newFile = {
+              uri : result.uri,
+              type:`test/${result.uri.split(".")[1]}`,
+              name:`test.${result.uri.split(".")[1]}`
+            }
+
+            const data = new FormData();
+            data.append('file',newFile)
+            data.append('upload_preset','UserProfile')
+            data.append("cloud_name","dd0txohwe")
+            fetch("https://api.cloudinary.com/v1_1/dd0txohwe/image/upload",{
+              method:"POST",
+              body:data
+            })
+            .then(res=>res.json())
+            .then(data=>{
+              console.log('cloudinary: \n\n\n\n\n\n\n\n\n'+ data.url);
+              this.setState({ imageAadhar: data.url ,check2:"check" })
+            })
           }
-    
+
           console.log(result);
         } catch (E) {
           console.log(E);
+          this.setState({
+            showAlert: false
+          });
         }
       };
-      //user choice to select from gallary or camera
-      userChoice =()=>{
-        this.setState({
-          showAlert: true
-        });
-
-      }
       _pickImagePan = async () => {
         try {
-          let result = await ImagePicker.launchCameraAsync({
+          let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
+            base64:true
           });
           if (!result.cancelled) {
-            this.setState({ imagePan: result.uri ,check3:"check"});
+            console.log('result  : '+ result.uri);
+            
+            let newFile = {
+              uri : result.uri,
+              type:`test/${result.uri.split(".")[1]}`,
+              name:`test.${result.uri.split(".")[1]}`
+            }
+      
+            const data = new FormData();
+            data.append('file',newFile)
+            data.append('upload_preset','UserProfile')
+            data.append("cloud_name","dd0txohwe")
+            fetch("https://api.cloudinary.com/v1_1/dd0txohwe/image/upload",{
+              method:"POST",
+              body:data
+            })
+            .then(res=>res.json())
+            .then(data=>{
+              console.log('cloudinary: \n\n\n\n\n\n\n\n\n'+ data.url);
+              this.setState({ imagePan: data.url ,check2:"check" })
+            })
           }
-    
+      
           console.log(result);
         } catch (E) {
           console.log(E);
+          this.setState({
+            showAlert: false
+          });
         }
-      };
+      }; 
       submitData=(fullName,username,password,mNumber,land,area,comodity,accNumber,ifscCode,accHolderName,aadharNumber,pan,selected,image)=>{
-        if(
-          this.state.username !== ""&&
-          this.state.password !== ""
-        )
-        
-        {
-          axios.post(`${baseUrl}api/v1/authentication/register/`,{
-            "userType": selected,
-            "userName": username,
-            "password": password,
-            "addressLine1": this.state.addressLine1,
-            "addressLine2": this.state.addressLine2,
-            "state": this.state.uState,
-            "city": this.state.uCity,
-            "mobile": mNumber,
-            "landArea": land,
-            "landAreaType": area,
-            "commodity": comodity,
-            "bankDetails": {
-                "accHolderName":accHolderName,
-                "ifscCode":ifscCode,
-                "accNumber":accNumber
-            },
-            "documentsUploaded": [],
-            "emailNotification": true,
-            "pushNotification": true,
-            "admin": false
-          }).
-        then(async(data)=>{
-           let _id = data.data._id
-          //  const blob = await new Promise((resolve, reject) => {
-          //   const xhr = new XMLHttpRequest();
-          //   xhr.onload = function() {
-          //     resolve(xhr.response);
-          //   };
-          //   xhr.onerror = function(e) {
-          //     console.log(e);
-          //     reject(new TypeError("Network request failed"));
-          //   };
-          //   xhr.responseType = "blob";
-          //   xhr.open("POST", this.state.imageProfile, true);
-          //   xhr.send(null);
-            
-          // });
-          // console.log('testing\n\n\n\n '+(blob.data.name));
-          // let newBlob = blob
-          // //close blob
-          // // blob.close();
-          // // let blb =  await 
-          //  axios.post(`${baseUrl}api/v1/users/upload/5f11e1307a0bf416cec63c26`,
-          //    {
-          //     Accept: 'application/json',
-          //     headers: {
-          //         "Content-Type": "multipart/form-data",
-          //     },
-          //     body: blob._data
-          //    }
-          //  )
-          const fileInput = document.querySelector(this.state.imageProfile);
-          
-            const formData = new FormData();
-
-            formData.append('document', fileInput);
-
-            const options = {
-              method: 'POST',
-              body: formData,
-              // If you add this, upload won't work
-              // headers: {
-              //   'Content-Type': 'multipart/form-data',
-              // }
-            };
-            fetch(`${baseUrl}api/v1/users/upload/5f11e1307a0bf416cec63c26`, options)
-           .then((response)=>{
-             console.log('Uploading Image : '+JSON.stringify(response));
-             
-            Alert,alert("User Regestered Sucessfully")
-            this.props.nav.navigate("Home")
-           })
-           .catch((err)=>{
-             console.log('error in uploading image : '+err);
-           })
-        }).
-        catch((e)=>{
+        axios.post(`${baseUrl}api/v1/authentication/register/`,{
+          "userType": selected,
+          "userName": username,
+          "password": password,
+          "addressLine1": this.state.addressLine1,
+          "addressLine2": this.state.addressLine2,
+          "state": this.state.uState,
+          "city": this.state.uCity,
+          "mobile": mNumber,
+          "landArea": land,
+          "landAreaType": area,
+          "commodity": comodity,
+          "bankDetails": {
+              "accHolderName":accHolderName,
+              "ifscCode":ifscCode,
+              "accNumber":accNumber
+          },
+          "documentsUploaded": [{
+            "profile " : this.state.imageProfile,
+            "aadharNumber " : this.state.imageAadhar,
+            "imagePan " : this.state.imagePan,
+          }],
+          "emailNotification": true,
+          "pushNotification": true,
+          "admin": false
+        })
+        .then(()=>{
+          Alert,alert("User Regestered Sucessfully")
+          this.props.nav.navigate("Home")
+        })
+        .catch((e)=>{
             console.log(e.message);
             Alert.alert("Duplicate registration is not allowed")
         })
-        }
-        else{
-          Alert.alert("Invalid Usermane or Password")
-        }
       }
       addTextInput = (index) => {
         let textInput = this.state.textInput;
