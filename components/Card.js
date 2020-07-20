@@ -195,8 +195,13 @@ export class ScrollHorizontalCard extends React.Component{
             <View style={{ width:150,height:120,paddingVertical:5, paddingLeft:1,paddingRight:3}}>
                 <Image
                     style={styles.image}
-                    source={{uri: `${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}` }}
+                    // source={{uri: `${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}` }}
                     // source={require("./../assets/swiper-1.png")}
+                    source={
+                    {uri : `${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}` } 
+                        ? {uri : `${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}` }
+                        : require("./../assets/swiper-1.png")
+                    }
                 /> 
             </View> 
             <View style={{paddingHorizontal:10, alignItems:"center"}}>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View,Text,TouchableOpacity, Alert } from 'react-native';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
-import {Form,Item,Label,Button,Icon, Input,Picker } from "native-base"
+import {Form,Item,Label,Button,Icon, Input,Picker ,Spinner} from "native-base"
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import {MaterialCommunityIcons,AntDesign,Entypo} from '@expo/vector-icons';
@@ -13,13 +13,19 @@ export default class Login extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-          // selected: "",
           username: "",
           password: "",
-          responce: null
+          responce: null,
+          loginText :   <Text style={{textAlign:"center",color:"#fff"}}>Login</Text>,
+          disableBttn: false,
+          loginPressed:false
         };
       }
       loginSubmit= ()=>{
+        this.setState({
+          loginText:  <Spinner />,
+          disableBttn:true
+        })
         axios({
           method: 'POST',
           url: `${baseUrl}api/v1/authentication/login`,
@@ -27,8 +33,8 @@ export default class Login extends React.Component{
             'userName' : this.state.username,
             'password' : this.state.password
           }
-        }).
-        then  ( respone=>{
+        })
+        .then  ( respone=>{
           let responce = JSON.stringify(respone.data.token)
           this.setState({responce})
           // console.log('Sucess :  ::::::::::::::::::::::  \n\n\n\n\n'+ respone.data.id);
@@ -44,6 +50,10 @@ export default class Login extends React.Component{
                 responce:null
               })
               this.props.nav.navigate("Home")
+              this.setState({
+                loginText:<Text style={{textAlign:"center",color:"#fff"}}>Login</Text>,
+                disableBttn:false
+              })
               // this.props.navigation.goBack();
             // let test= await AsyncStorage.getItem('username')
             // console.log('test :'+JSON.stringify(test));  
@@ -58,15 +68,18 @@ export default class Login extends React.Component{
         }).catch(e=>{
           console.log('error from backend: '+e);
           Alert.alert("Credentials not valid!")
-          
+          this.setState({
+            loginText:<Text style={{textAlign:"center",color:"#fff"}}>Login</Text>,
+            disableBttn:false
+          })
         })
       }
 
     render(){
         return(
             <View>
-                <Text style={{fontSize:20,marginTop:35,textAlign:"center"}}>Hey,User</Text>
-                <Form> 
+                {/* <Text style={{fontSize:20,marginTop:35,textAlign:"center"}}>Hey,User</Text> */}
+                <Form style={{marginTop:100}}> 
              <Item floatingLabel>
                 <Label>User Name</Label>
                  <Input 
@@ -90,10 +103,11 @@ export default class Login extends React.Component{
     
             <View style={{alignItems:"center"}}>
             <Button 
+            disabled={this.state.disableBttn}
             onPress={()=>this.loginSubmit()}
             style={{width:150,marginTop:45,justifyContent:"center",backgroundColor:"green"}}
             >
-                <Text style={{textAlign:"center",color:"#fff"}}>Login</Text>
+                {this.state.loginText}
             </Button>
             </View>
             </View>

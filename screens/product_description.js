@@ -40,7 +40,7 @@ export default class Product_Description extends React.Component {
     componentWillMount(){
         let user = AsyncStorage.getItem('user');  
         // let parsed = JSON.parse(user);  
-       console.log('key:\n\n\n\n\n\n '+  JSON.stringify(user) );
+    //    console.log('key:\n\n\n\n\n\n '+  JSON.stringify(user) );
        
         axios.get(`${baseUrl}api/v1/product/${this.props.route.params.itemId}`)
         .then((res)=>{
@@ -145,8 +145,13 @@ export default class Product_Description extends React.Component {
                     <View style={{height:350, width:width, elevation:3}}>
                         <Image
                             style={styles.image}
-                            source={{uri:`${baseUrl}${this.state._productFrontImage}`}}
+                            // source={{uri:`${baseUrl}${this.state._productFrontImage}`}}
                             // source={require("./../assets/swiper-1.png")}
+                            source={
+                            {uri:`${baseUrl}${this.state._productFrontImage}`}
+                                ? {uri:`${baseUrl}${this.state._productFrontImage}`}
+                                : require("./../assets/swiper-1.png")
+                            }
                         /> 
                     </View>
                     {/* <View style={{ paddingHorizontal:10, marginTop:15}}> */}
@@ -320,7 +325,8 @@ export default class Product_Description extends React.Component {
             this.state.bori &&
             this.state.weight &&
             this.state.vehicleNo &&
-            this.state.driver ? false : true}
+            this.state.driver ? false : true
+            }
             
             onPress={()=>{
                 this.sendEnquire(
@@ -347,22 +353,6 @@ export default class Product_Description extends React.Component {
  
           </View>       
       </View>
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
               {/* <Product_enquiy 
               parameter={this.state._productqualityParameter.parameter}
               values={this.state._productqualityParameter.values}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,Text,TouchableOpacity, Alert,TextInput } from 'react-native';
+import { View,Text,TouchableOpacity, Alert,TextInput,ScrollView } from 'react-native';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import {Form,Item,Label,Button,Icon, Input,Picker } from "native-base"
 import * as ImagePicker from 'expo-image-picker';
@@ -8,10 +8,11 @@ import {MaterialCommunityIcons,AntDesign,Entypo} from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import axios from "axios";
 import AwesomeAlert from 'react-native-awesome-alerts';
+// import { ScrollView } from 'react-native-gesture-handler';
 // import RNFetchBlob from 'react-native-fetch-blob'
 // import {  } from "react-native-fetch-blob";
-let baseUrl = `https://knekisan.com/`;
-// let baseUrl = `http://192.168.29.157:4000/`;
+// let baseUrl = `https://knekisan.com/`;
+let baseUrl = `http://192.168.29.157:4000/`;
 export default class signUp extends React.Component{
   
     constructor(props) {
@@ -21,22 +22,22 @@ export default class signUp extends React.Component{
           imageProfile: null,
           imageAadhar: null,
           imagePan: null,
-          fullName:"",
-          username:"",
-          password:"",
-          mNumber:"",
-          land:"",
+          fullName:"a",
+          username:"testadotableshar",
+          password:"123456789",
+          mNumber:"6207620896523",
+          land:"1",
           area:"sq",
           comodity:null,
-          accNumber:"",
-          ifscCode:"",
-          accHolderName:"",
-          aadharNumber:"",
-          pan:"",
-          addressLine1:"",
-          addressLine2:"",
-          uState:'',
-          uCity:"",
+          accNumber:"1",
+          ifscCode:"1",
+          accHolderName:"1",
+          aadharNumber:"1",
+          pan:"1",
+          addressLine1:"1",
+          addressLine2:"1",
+          uState:'1',
+          uCity:"1",
           check1:null,
           check2:null,
           check3:null,
@@ -190,42 +191,49 @@ export default class signUp extends React.Component{
           }).
         then(async(data)=>{
            let _id = data.data._id
-          const formData = new FormData();
-            formData.append("document", {
-                uri: this.state.imageProfile,
-                name: "image",
-                type: "image/jpg",
-            });
-            // console.log('form data\n\n\n'+JSON.stringify(formData));
-          
-          // let ret = await RNFetchBlob.fetch(
-          //   'POST',
-          //   `${baseUrl}api/v1/users/upload/5f11e1307a0bf416cec63c26`,
-          //   {
-          //     'Content-Type': 'multipart/form-data',
-          //     'x-auth': token, 
-          //   },
-          //   [
-          //     {
-          //       name: 'image',
-          //       filename: Date.now() + '.png',
-          //       type: 'image/png',
-          //       data: RNFetchBlob.wrap(this.state.imageProfile),
-          //     },
-          //   ],
-          // )
-          // return ret
+          //  const blob = await new Promise((resolve, reject) => {
+          //   const xhr = new XMLHttpRequest();
+          //   xhr.onload = function() {
+          //     resolve(xhr.response);
+          //   };
+          //   xhr.onerror = function(e) {
+          //     console.log(e);
+          //     reject(new TypeError("Network request failed"));
+          //   };
+          //   xhr.responseType = "blob";
+          //   xhr.open("POST", this.state.imageProfile, true);
+          //   xhr.send(null);
             
-           axios.post(`${baseUrl}api/v1/users/upload/5f11e1307a0bf416cec63c26`,
-             {
-              // method: "POST",
-              Accept: 'application/json',
-              headers: {
-                  "Content-Type": "multipart/form-data",
-              },
+          // });
+          // console.log('testing\n\n\n\n '+(blob.data.name));
+          // let newBlob = blob
+          // //close blob
+          // // blob.close();
+          // // let blb =  await 
+          //  axios.post(`${baseUrl}api/v1/users/upload/5f11e1307a0bf416cec63c26`,
+          //    {
+          //     Accept: 'application/json',
+          //     headers: {
+          //         "Content-Type": "multipart/form-data",
+          //     },
+          //     body: blob._data
+          //    }
+          //  )
+          const fileInput = document.querySelector(this.state.imageProfile);
+          
+            const formData = new FormData();
+
+            formData.append('document', fileInput);
+
+            const options = {
+              method: 'POST',
               body: formData,
-             }
-           )
+              // If you add this, upload won't work
+              // headers: {
+              //   'Content-Type': 'multipart/form-data',
+              // }
+            };
+            fetch(`${baseUrl}api/v1/users/upload/5f11e1307a0bf416cec63c26`, options)
            .then((response)=>{
              console.log('Uploading Image : '+JSON.stringify(response));
              
@@ -341,7 +349,12 @@ export default class signUp extends React.Component{
         label="User">
             <View style={{ backgroundColor:"#fff" }}>
             {/* <Form> */}
-            <Picker
+           <View style={{flexDirection:"row",justifyContent:"center"}}>
+          <View>
+           <Text style={{fontSize:18}}>User Type : </Text>
+          </View>
+          <View style={{marginTop:-25}}>
+          <Picker
               mode="dropdown"
               iosHeader="Select User Type"
               iosIcon={<Icon name="arrow-down" />}
@@ -353,7 +366,9 @@ export default class signUp extends React.Component{
               <Picker.Item label="Brochoure" value="Brochoure" />
               <Picker.Item label="Farmer" value="Farmer" />
             </Picker>
-            <Item style={{marginTop:20}} floatingLabel>
+          </View>
+           </View>
+            {/* <Item style={{marginTop:20}} floatingLabel>
             <Label>Full Name</Label>
             <Input 
             style={{
@@ -367,7 +382,10 @@ export default class signUp extends React.Component{
                 fullName=>this.setState({fullName})
                 }
             />
-            </Item>
+            </Item> */}
+           <ScrollView
+          style={{ marginBottom:100 }}
+           >
             <Item 
             style={{marginTop:10}}
              floatingLabel>
@@ -383,7 +401,7 @@ export default class signUp extends React.Component{
             />
             </Item>
             <Item 
-            style={{marginTop:10}}
+            style={{marginTop:15}}
              floatingLabel>
             <Label>Password</Label>
             <Input 
@@ -398,7 +416,7 @@ export default class signUp extends React.Component{
             />
             </Item>
             <Item 
-            style={{marginTop:10}}
+            style={{marginTop:15}}
              floatingLabel>
             <Label>Mobile Number</Label>
             <Input 
@@ -412,7 +430,7 @@ export default class signUp extends React.Component{
             />
             </Item>
             <Item 
-            style={{marginTop:10}}
+            style={{marginTop:15}}
              floatingLabel>
             <Label>Address 1</Label>
             <Input 
@@ -426,7 +444,7 @@ export default class signUp extends React.Component{
             />
             </Item>
             <Item 
-            style={{marginTop:10}}
+            style={{marginTop:15}}
              floatingLabel>
             <Label>Address 2</Label>
             <Input 
@@ -440,7 +458,7 @@ export default class signUp extends React.Component{
             />
             </Item>
             <Item 
-            style={{marginTop:10}}
+            style={{marginTop:15}}
              floatingLabel>
             <Label>City</Label>
             <Input 
@@ -454,7 +472,7 @@ export default class signUp extends React.Component{
             />
             </Item>
             <Item 
-            style={{marginTop:10}}
+            style={{marginTop:15}}
              floatingLabel>
             <Label>State</Label>
             <Input 
@@ -467,6 +485,8 @@ export default class signUp extends React.Component{
                 }
             />
             </Item>
+          
+           </ScrollView>
           {/* </Form> */}
             </View>
         </ProgressStep>
