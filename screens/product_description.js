@@ -148,9 +148,9 @@ export default class Product_Description extends React.Component {
                             // source={{uri:`${baseUrl}${this.state._productFrontImage}`}}
                             // source={require("./../assets/swiper-1.png")}
                             source={
-                            {uri:`${baseUrl}${this.state._productFrontImage}`}
+                            {uri:`${baseUrl}${this.state._productFrontImage}`=== null}
                                 ? {uri:`${baseUrl}${this.state._productFrontImage}`}
-                                : require("./../assets/swiper-1.png")
+                                : ("./../assets/swiper-1.png")
                             }
                         /> 
                     </View>

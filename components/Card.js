@@ -4,8 +4,8 @@ import {AntDesign} from '@expo/vector-icons';
 import { Card } from "react-native-paper" ;
 import axios from "axios";
 import { AsyncStorage } from 'react-native';
-let baseUrl =`https://knekisan.com/`
-
+// let baseUrl =`https://knekisan.com/`
+let baseUrl = `http://192.168.29.157:4000/`;
 const { width } = Dimensions.get('window')
 var productData = []
 export const Card1 = (props) => (
@@ -25,7 +25,6 @@ export const Card1 = (props) => (
                 </Card>
             </TouchableOpacity>
   );
-
 export const Card2 = (props) => (
         <TouchableOpacity
             onPress={()=>props.navigation.navigate('ProductDescription') }
@@ -43,7 +42,6 @@ export const Card2 = (props) => (
             </Card>
         </TouchableOpacity>
 );
-
 export const Card3 = (props) => (
         <TouchableOpacity
             onPress={()=>props.navigation.navigate('ProductDescription') }
@@ -61,7 +59,6 @@ export const Card3 = (props) => (
             </Card>
         </TouchableOpacity>
 );
-
 export const Card4 = (props) => (
         <TouchableOpacity
             onPress={()=>props.navigation.navigate('ProductDescription') }
@@ -79,7 +76,6 @@ export const Card4 = (props) => (
             </Card>
         </TouchableOpacity>
 );
-
 export const Card5 = (props) => (
         <TouchableOpacity
             onPress={()=>props.navigation.navigate('ProductDescription') }
@@ -97,7 +93,6 @@ export const Card5 = (props) => (
             </Card>
         </TouchableOpacity>
 );
-
 export const LabelCard = (props) => (
     <View style={{marginTop:3}}>
         <Card style={{marginHorizontal:10, }}>
@@ -107,8 +102,6 @@ export const LabelCard = (props) => (
         </Card>
     </View>
 );
-
-
 export const LargeCategoryCards = (props) => (
         <TouchableOpacity
             onPress={()=>props.navigation.navigate('ProductDescription') }
@@ -128,7 +121,6 @@ export const LargeCategoryCards = (props) => (
             </Card>
         </TouchableOpacity>
 );
-
 export const SmallCategoryCards = (props) => (
         <TouchableOpacity
             onPress={()=>props.navigation.navigate('ProductDescription') }
@@ -147,8 +139,87 @@ export const SmallCategoryCards = (props) => (
                 </View>
             </Card>
         </TouchableOpacity>
-);
+)
+// export class ScrollHorizontalCard extends React.Component{
+//     componentWillMount(){
+//         this.getProducts();
+//     }
+//     constructor(props) {
+//     super(props);
+     
+//     this.state = {
+//         products:[],
+//         _id:"hii"
+//     };
+//      }
+//     getProducts = () =>{
+//     axios.get(`${baseUrl}api/v1/product/getall`).
+//     then((res)=>{
+//        var products = res.data.data;
+//     //    var _id = res.data.data.data;
+//         this.setState({products})
+//         var check = products[0].images[0]
+//         console.log(":1:\n\n :2: \n\n"+ JSON.stringify(check).substring(7).slice(0, -1) );
 
+        
+//       }).
+//       catch(e=>{
+//           Alert.alert('Error : '+ e);
+          
+//       })
+//     }
+//     render(){
+//         // console.log('hii\n\n+'+this.state._id);
+        
+//         return(
+//             this.state.products.map((obj)=>
+//             <TouchableOpacity
+//             onPress={()=>{
+//                 this.props.navigation.navigate('ProductDescription', {
+//                     itemId: obj._id,
+//                 });
+//             }}
+//             // activeOpacity={0.7} 
+//             style={{elevation:3, marginVertical:5, marginHorizontal:5, width: 150, height: 200, backgroundColor:"#fff"}}
+//         >
+//             <View style={{ width:150,height:120,paddingVertical:5, paddingLeft:1,paddingRight:3}}>
+//                 <Image
+//                     style={styles.image}
+//                     // source={{uri: `${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}` }}
+//                     // source={require("./../assets/swiper-1.png")}
+//                     source={
+//                     {uri : `${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}` } 
+//                         ? {uri : `${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}` }
+//                         : require("./../assets/swiper-1.png")
+//                      }
+//                 /> 
+//             </View> 
+//             <View style={{paddingHorizontal:10, alignItems:"center"}}>
+//                 <Text style={{width:130, fontSize:13}}>{obj.name}</Text>
+//                 {/* <View style={{flexDirection:"row"}}> */}
+//                     {/* <View style={{ flexDirection:"row", height:17,width:35, marginTop:3, backgroundColor:"#D0F0C0", alignItems:"center", justifyContent:"center"}}> */}
+//                         {/* <Text style={{fontSize:13, color:"green"}}>4.5 </Text>
+//                         <AntDesign name="star" size={10} color="green" /> */}
+//                     {/* </View> */}
+//                     {/* <Text style={{marginTop:2, fontSize:13}}> 10181 Ratings</Text> */}
+//                 {/* </View> */}
+//                 {/* <Text style={{fontSize:13}}>750 ml</Text> */}
+//             </View>                      
+//             <View style={{paddingHorizontal:10}}>
+//                 <Text style={{marginTop:15, fontSize:14}}>MRP: {obj.price}</Text>
+//                 {/* <Text style={{fontWeight:"bold", fontSize:14}}>Rs 98</Text> */}
+//             </View>
+//             <View style={{alignItems:"center", marginTop:15}}>
+//                 {/* <View style={{height:30, width:60, justifyContent:"center", alignItems:"center", backgroundColor:"#DC143C", borderRadius:5}}> */}
+//                     {/* <Text style={{color:"#fff", fontSize:14}}>ADD</Text>     */}
+//                 {/* </View> */}
+//             </View>  
+//         </TouchableOpacity>
+       
+//             )
+//         );
+//     }
+// }
 export class ScrollHorizontalCard extends React.Component{
     componentWillMount(){
         this.getProducts();
@@ -158,80 +229,61 @@ export class ScrollHorizontalCard extends React.Component{
      
     this.state = {
         products:[],
-        _id:"hii"
+        _id:"",
+        imageUri:require("./../assets/swiper-1.png")
     };
      }
     getProducts = () =>{
     axios.get(`${baseUrl}api/v1/product/getall`).
     then((res)=>{
        var products = res.data.data;
-    //    var _id = res.data.data.data;
         this.setState({products})
-        var check = products[0].images[0]
-        console.log(":1:\n\n :2: \n\n"+ JSON.stringify(check).substring(7).slice(0, -1) );
-
-        
+        // var check = products[0].images[0]
+        // console.log("\n\n\n\n"+ JSON.stringify(check).substring(7).slice(0, -1) );
       }).
       catch(e=>{
           Alert.alert('Error : '+ e);
-          
       })
     }
     render(){
-        // console.log('hii\n\n+'+this.state._id);
         
         return(
-            this.state.products.map((obj)=>
+            this.state.products.map((obj)=>{
+                if (obj.images.length>=1) {
+                    this.setState({imageUri:`${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}`})
+                } else {
+                    this.setState({imageUri:require("./../assets/swiper-1.png")})
+                }
+        return( 
             <TouchableOpacity
             onPress={()=>{
                 this.props.navigation.navigate('ProductDescription', {
                     itemId: obj._id,
                 });
             }}
-            // activeOpacity={0.7}
-            
-            style={{elevation:3, marginVertical:5, marginHorizontal:5, width: 150, height: 200, backgroundColor:"#fff"}}
-        >
+            style={{elevation:3, marginVertical:5, marginHorizontal:5, width: 150, height: 200, backgroundColor:"#fff"}}>
             <View style={{ width:150,height:120,paddingVertical:5, paddingLeft:1,paddingRight:3}}>
                 <Image
                     style={styles.image}
-                    // source={{uri: `${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}` }}
-                    // source={require("./../assets/swiper-1.png")}
-                    source={
-                    {uri : `${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}` } 
-                        ? {uri : `${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}` }
-                        : require("./../assets/swiper-1.png")
-                    }
+                    source={{uri:this.state.imageUri}}  
                 /> 
             </View> 
-            <View style={{paddingHorizontal:10, alignItems:"center"}}>
+                <View style={{paddingHorizontal:10, alignItems:"center"}}>
                 <Text style={{width:130, fontSize:13}}>{obj.name}</Text>
-                {/* <View style={{flexDirection:"row"}}> */}
-                    {/* <View style={{ flexDirection:"row", height:17,width:35, marginTop:3, backgroundColor:"#D0F0C0", alignItems:"center", justifyContent:"center"}}> */}
-                        {/* <Text style={{fontSize:13, color:"green"}}>4.5 </Text>
-                        <AntDesign name="star" size={10} color="green" /> */}
-                    {/* </View> */}
-                    {/* <Text style={{marginTop:2, fontSize:13}}> 10181 Ratings</Text> */}
-                {/* </View> */}
-                {/* <Text style={{fontSize:13}}>750 ml</Text> */}
             </View>                      
-            <View style={{paddingHorizontal:10}}>
+                <View style={{paddingHorizontal:10}}>
                 <Text style={{marginTop:15, fontSize:14}}>MRP: {obj.price}</Text>
-                {/* <Text style={{fontWeight:"bold", fontSize:14}}>Rs 98</Text> */}
             </View>
-            <View style={{alignItems:"center", marginTop:15}}>
-                {/* <View style={{height:30, width:60, justifyContent:"center", alignItems:"center", backgroundColor:"#DC143C", borderRadius:5}}> */}
-                    {/* <Text style={{color:"#fff", fontSize:14}}>ADD</Text>     */}
-                {/* </View> */}
+               <View style={{alignItems:"center", marginTop:15}}>
             </View>  
         </TouchableOpacity>
-       
-            )
+
+              )}
+            )    
         );
     }
+    
 }
-
-
 export const TransparentCard = (props) => (
     <TouchableOpacity
         onPress={()=>props.navigation.navigate('ProductDescription') }
@@ -250,7 +302,6 @@ export const TransparentCard = (props) => (
           
     </TouchableOpacity>
 );
-
 export const ScrollHorizontalCardView = (props) => (
     <View style={{width:"100%", height:230, paddingTop:7, paddingBottom:8, backgroundColor:"#fff", marginBottom:3}}>
         <ImageBackground source={require("./../assets/horizontalcardbackground.jpg")} style={styles.image}>
@@ -264,7 +315,6 @@ export const ScrollHorizontalCardView = (props) => (
         </ImageBackground>
     </View>
 );
-
 export const OffersLargeCards = (props) => (
     <TouchableOpacity
         onPress={()=>props.navigation.navigate('ProductDescription') }
@@ -281,8 +331,6 @@ export const OffersLargeCards = (props) => (
         </Card>
     </TouchableOpacity>
 );
-
-
 export const ScrollHorizontal_Product_Suggestion = (props) => (
     <TouchableOpacity
         onPress={()=>props.navigation.navigate('ProductDescription') }
@@ -313,8 +361,6 @@ export const ScrollHorizontal_Product_Suggestion = (props) => (
         </View>  
     </TouchableOpacity>
 );
-
-
 export const ScrollHorizontal_Product_SuggestionView = (props) => (
     <View style={{width:"100%", height:320, paddingTop:7, backgroundColor:"#fff", marginBottom:3}}>
         <ScrollView 
@@ -331,9 +377,6 @@ export const ScrollHorizontal_Product_SuggestionView = (props) => (
         </ScrollView>
     </View>
 );
-
-
-
   const styles = StyleSheet.create({
     image:{
         flex: 1,
@@ -348,5 +391,3 @@ export const ScrollHorizontal_Product_SuggestionView = (props) => (
         marginVertical:5,
     },
   })
-  
- 

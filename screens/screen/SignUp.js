@@ -11,8 +11,8 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 // import { ScrollView } from 'react-native-gesture-handler';
 // import RNFetchBlob from 'react-native-fetch-blob'
 // import {  } from "react-native-fetch-blob";
-// let baseUrl = `https://knekisan.com/`;
-let baseUrl = `http://192.168.29.157:4000/`;
+let baseUrl = `https://knekisan.com/`;
+// let baseUrl = `http://192.168.29.157:4000/`;
 export default class signUp extends React.Component{
   
     constructor(props) {
@@ -286,11 +286,11 @@ export default class signUp extends React.Component{
               "ifscCode":ifscCode,
               "accNumber":accNumber
           },
-          "documentsUploaded": [{
-            "profile " : this.state.imageProfile,
-            "aadharNumber " : this.state.imageAadhar,
-            "imagePan " : this.state.imagePan,
-          }],
+          "documentsUploaded": [
+              this.state.imageProfile,
+              this.state.imageAadhar,
+              this.state.imagePan
+            ],
           "emailNotification": true,
           "pushNotification": true,
           "admin": false
