@@ -24,7 +24,7 @@ export const Header3 = () => {
           }}>
              <Feather name="menu" size={30} color="white" />
              <View>
-                 <Text style={{color:"#fff", fontSize:20}}>Offers</Text>
+                 <Text style={{color:"#fff", fontSize:20}}>Inquiries</Text>
              </View>
              <View>
                  <EvilIcons name="search" size={32} color="#fff" style={{marginTop:5, marginLeft:-13}} />

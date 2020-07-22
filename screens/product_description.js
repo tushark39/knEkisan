@@ -6,7 +6,7 @@ import { Header5 } from "../components/Header_components";
 import { Form, Item, Label, Input, Button } from 'native-base';
 import { AsyncStorage } from 'react-native';
 // import { Table, Row, Rows } from 'react-native-table-component';
-import { Card1, Card2, Card3, Card4, Card5, LabelCard, LargeCategoryCards, SmallCategoryCards, ScrollHorizontal_Product_SuggestionView, } from "../components/Card"
+import {  ScrollHorizontalCardView} from "../components/Card"
 // import { TouchableOpacity } from 'react-native-gesture-handler';
 import Swiper from 'react-native-swiper'
 import axios from 'axios'
@@ -36,6 +36,7 @@ export default class Product_Description extends React.Component {
             driver: "",
             remarks: "",
             customer: "",
+            userQuality:"",
             product: "",
             disabledButton: true,
             groupByCategory: [],
@@ -91,13 +92,13 @@ export default class Product_Description extends React.Component {
     componentDidMount() {
 
     }
-    sendEnquire = async (parameter, values, id) => {
+    sendEnquire = async (id) => {
         // console.log('State check :\n\n\n\n\n '+JSON.stringify(this.state));
         let _userKey = await AsyncStorage.getItem('user')
         axios.post(`${baseUrl}api/v1/inquiry/create/`, {
             "bori": this.state.bori,
-            "quality": parameter,
-            "weight": values,
+            "quality": this.state.userQuality,
+            "weight": this.state.weight,
             "vehicleNo": this.state.vehicleNo,
             "driver": this.state.driver,
             "remarks": this.state.remarks,
@@ -487,6 +488,15 @@ export default class Product_Description extends React.Component {
                                                         }
                                                     />
                                                 </Item>
+                                                <Item floatingLabel>
+                                                    <Label>Quality</Label>
+                                                    <Input
+                                                        onChangeText={
+                                                            userQuality => this.setState({ userQuality })
+                                                        }
+                                                    />
+                                                </Item>
+                                                
                                                 <Button
                                                     disabled={
                                                         this.state.bori &&
@@ -497,8 +507,8 @@ export default class Product_Description extends React.Component {
 
                                                     onPress={() => {
                                                         this.sendEnquire(
-                                                            this.state._productqualityParameter.parameter,
-                                                            this.state._productqualityParameter.values,
+                                                            // this.state._productqualityParameter.parameter,
+                                                            // this.state._productqualityParameter.values,
                                                             this.state._productId
                                                         );
                                                     }}
@@ -531,8 +541,10 @@ export default class Product_Description extends React.Component {
                         </Modal>
                     </View>
                     <View style={{ padding: 10, marginTop: 5, backgroundColor: '#fff' }}>
-                        <Text style={{ fontSize: 16, marginBottom: 10 }}>Similar Products</Text>
-                        <ScrollHorizontal_Product_SuggestionView />
+                        <Text style={{ fontSize: 16, marginBottom: 10 }}>More Products</Text>
+                        {/* <ScrollHorizontal_Product_SuggestionView /> */}
+                      <ScrollHorizontalCardView navigation={this.props.navigation}/>
+
                     </View>
                     {/* <View style={{padding:10, marginTop:5, backgroundColor:'#fff'}}>
                     <Text style={{fontSize:16, marginBottom:10}}>Frequently Bought Together</Text>

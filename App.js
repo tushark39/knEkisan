@@ -86,7 +86,7 @@ const HomeStack = () => {
       <Stack.Screen name="ProductDescription" component={Product_Description} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginSignup} options={{ headerShown: false }} />
       <Stack.Screen name="Category" component={Category} options={{ headerShown: false }} />
-      <Stack.Screen name="Offers" component={Offers} options={{ headerShown: false }} />
+      <Stack.Screen name="Inquiry" component={Offers} options={{ headerShown: false }} />
       {/* <Stack.Screen name="Basket" component={Basket} options={{ headerShown: false }} /> */}
       <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
       <Stack.Screen name="Profile" component={Profile} options={{ 
@@ -139,11 +139,12 @@ const HomeTab = () => {
                       ),
                     }}
           />
-          <Tab.Screen name="Offers" component={Offers} 
+          <Tab.Screen name="Inquiry" component={Offers} 
                     options={{
                       tabBarIcon: () => (
                         <FontAwesome5 name="comment-dollar" size={24} color="black" />
                       ),
+                      
                     }}
           />
           {/* <Tab.Screen name="Basket" component={Basket} 
@@ -195,12 +196,12 @@ const CustomDrawer = (props) => {
         <TouchableOpacity onPress={() => props.navigation.navigate('Home')}>
           <Text style={{fontSize:18, marginBottom:20}}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => props.navigation.navigate('Offers')}>
+        {/* <TouchableOpacity onPress={() => props.navigation.navigate('Offers')}>
           <Text style={{fontSize:18, marginBottom:20}}>Offers</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => props.navigation.navigate('Category')}>
           <Text style={{fontSize:18, marginBottom:20}}>Categories</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {/* <TouchableOpacity onPress={() => props.navigation.navigate('Basket')}>
           <Text style={{fontSize:18, marginBottom:20}}>Shop By Basket</Text>
         </TouchableOpacity> */}
