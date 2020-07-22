@@ -281,7 +281,7 @@ export class ScrollHorizontalCard extends React.Component{
                 <Text style={{width:130, fontSize:13}}>{obj.name}</Text>
             </View>                      
                 <View style={{paddingHorizontal:10}}>
-                <Text style={{marginTop:15, fontSize:14}}>MRP: {obj.price}</Text>
+                <Text style={{marginTop:15, fontSize:14}}>Rs. {obj.price}</Text>
             </View>
                <View style={{alignItems:"center", marginTop:15}}>
             </View>  
