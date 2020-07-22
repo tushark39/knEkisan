@@ -4,8 +4,8 @@ import {AntDesign} from '@expo/vector-icons';
 import { Card } from "react-native-paper" ;
 import axios from "axios";
 import { AsyncStorage } from 'react-native';
-// let baseUrl =`https://knekisan.com/`
-let baseUrl = `http://192.168.29.157:4000/`;
+let baseUrl =`https://knekisan.com/`
+// let baseUrl = `http://192.168.29.157:4000/`;
 const { width } = Dimensions.get('window')
 var productData = []
 export const Card1 = (props) => (
@@ -232,7 +232,7 @@ export class ScrollHorizontalCard extends React.Component{
     this.state = {
         products:[],
         _id:"",
-        imageUri:require("./../assets/swiper-1.png")
+        imageUri:require('./../assets/swiper-1.png')
     };
      }
     getProducts = () =>{
@@ -248,9 +248,8 @@ export class ScrollHorizontalCard extends React.Component{
       })
     }
     render(){
-        
         return(
-            this.state.products.map((obj)=>
+            this.state.products.filter((status)=> status.status === 'Active').map((obj)=>
             <TouchableOpacity
             onPress={()=>{
                 this.props.navigation.navigate('ProductDescription', {
@@ -259,10 +258,24 @@ export class ScrollHorizontalCard extends React.Component{
             }}
             style={{elevation:3, marginVertical:5, marginHorizontal:5, width: 150, height: 200, backgroundColor:"#fff"}}>
             <View style={{ width:150,height:120,paddingVertical:5, paddingLeft:1,paddingRight:3}}>
-                {/* <Image
+            { obj.images.length >=1 ? ( 
+                <Image
                     style={styles.image}
-                    source={{uri:this.state.imageUri}}  
-                />  */}
+                    source={{uri : `${baseUrl}${(obj.images[0]).substring(7)}`
+                     }}
+                    // source={uri:{ (obj.images.length >= 1) ? "":""}}
+                    // source={{uri:this.state.imageUri}}  
+                /> 
+             ) :  (<Image
+                    style={styles.image}
+                    source={{uri : `${baseUrl}images/uploads/dummy.jpeg`}}
+
+                    // source={require('./../assets/swiper-1.png')}
+                    // require('./../assets/swiper-1.png')
+                    // source={uri:{ (obj.images.length >= 1) ? "":""}}
+                    // source={{uri:this.state.imageUri}}  
+                />  )  }
+           
             </View> 
                 <View style={{paddingHorizontal:10, alignItems:"center"}}>
                 <Text style={{width:130, fontSize:13}}>{obj.name}</Text>
@@ -277,10 +290,8 @@ export class ScrollHorizontalCard extends React.Component{
               
             
             )    
-        );
-    
-    
-}
+        ); 
+    }
 }
 export const TransparentCard = (props) => (
     <TouchableOpacity

@@ -20,18 +20,18 @@ export default class Home extends React.Component {
       {id:"5", component:<Swiper2 navigation={this.props.navigation}/>},
       {id:"111", component:<ScrollHorizontalCardView navigation={this.props.navigation}/>},
 
-      {id:"6", component:<LabelCard label="Shop By Category" navigation={this.props.navigation}/>},
+      // {id:"6", component:<LabelCard label="Shop By Category" navigation={this.props.navigation}/>},
 
-      {id:"7", component:<View style={{flexDirection:"row", marginHorizontal:9}}>
-                          <View>
-                            <LargeCategoryCards navigation={this.props.navigation}/>
-                            <LargeCategoryCards navigation={this.props.navigation}/>
-                          </View>
-                          <View>
-                            <LargeCategoryCards navigation={this.props.navigation}/>
-                            <LargeCategoryCards navigation={this.props.navigation}/>
-                          </View>
-                        </View>},
+      // {id:"7", component:<View style={{flexDirection:"row", marginHorizontal:9}}>
+      //                     <View>
+      //                       <LargeCategoryCards navigation={this.props.navigation}/>
+      //                       <LargeCategoryCards navigation={this.props.navigation}/>
+      //                     </View>
+      //                     <View>
+      //                       <LargeCategoryCards navigation={this.props.navigation}/>
+      //                       <LargeCategoryCards navigation={this.props.navigation}/>
+      //                     </View>
+      //                   </View>},
 
       // {id:"8", component:<Card3 navigation={this.props.navigation}/>},
       // {id:"9", component:<View style={{flexDirection:"row", marginHorizontal:10}}>
@@ -158,7 +158,7 @@ export default class Home extends React.Component {
 
   render(){
     return (
-      <View style={{flex:1,backgroundColor:"#D3D3D3"}}>
+      <View style={{flex:1,backgroundColor:"#fff"}}>
         <Header navigation={this.props.navigation}/>       
         <FlatList
           keyExtractor={item => item.id}
