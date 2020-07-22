@@ -220,6 +220,8 @@ export const SmallCategoryCards = (props) => (
 //         );
 //     }
 // }
+
+
 export class ScrollHorizontalCard extends React.Component{
     componentWillMount(){
         this.getProducts();
@@ -248,13 +250,7 @@ export class ScrollHorizontalCard extends React.Component{
     render(){
         
         return(
-            this.state.products.map((obj)=>{
-                if (obj.images.length>=1) {
-                    this.setState({imageUri:`${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}`})
-                } else {
-                    this.setState({imageUri:require("./../assets/swiper-1.png")})
-                }
-        return( 
+            this.state.products.map((obj)=>
             <TouchableOpacity
             onPress={()=>{
                 this.props.navigation.navigate('ProductDescription', {
@@ -263,10 +259,10 @@ export class ScrollHorizontalCard extends React.Component{
             }}
             style={{elevation:3, marginVertical:5, marginHorizontal:5, width: 150, height: 200, backgroundColor:"#fff"}}>
             <View style={{ width:150,height:120,paddingVertical:5, paddingLeft:1,paddingRight:3}}>
-                <Image
+                {/* <Image
                     style={styles.image}
                     source={{uri:this.state.imageUri}}  
-                /> 
+                />  */}
             </View> 
                 <View style={{paddingHorizontal:10, alignItems:"center"}}>
                 <Text style={{width:130, fontSize:13}}>{obj.name}</Text>
@@ -278,11 +274,13 @@ export class ScrollHorizontalCard extends React.Component{
             </View>  
         </TouchableOpacity>
 
-              )}
+              
+            
             )    
         );
-    }
     
+    
+}
 }
 export const TransparentCard = (props) => (
     <TouchableOpacity
