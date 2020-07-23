@@ -35,14 +35,25 @@ componentWillMount(){
         
     }   
   render(){
-    let _productList = this.state.products.map(obj=>
-      <TouchableOpacity>
+    let _productList = this.state.products.filter((status)=> status.status === 'Active').map(obj=>
+      <TouchableOpacity
+      onPress={()=>{
+        this.props.navigation.navigate('ProductDescription', {
+            itemId: obj._id,
+        });
+    }}
+      >
         <Card style={styles.listItem}>
           <View>
-              <Image
-                style={styles.contactIcon}
-                source={{uri: `${baseUrl}${JSON.stringify(obj.images[0]).substring(7).slice(0, -1)}`}}
-              />
+          { obj.images.length >=1 ? ( 
+                <Image
+                    style={styles.image}
+                    source={{uri : `${baseUrl}${(obj.images[0]).substring(7)}`
+                        }}
+                    /> 
+             ) :  (<Image
+                    style={styles.image}
+                    source={{uri : `${baseUrl}images/uploads/dummy.jpeg`}}  />  )  }
            </View>
             <View style={styles.infoContainer}>
               <Text style={styles.infoText}>

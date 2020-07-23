@@ -16,6 +16,7 @@ import Profile from "./screens/Profile" ;
 import UpdateProfile from "./screens/UpdateProfile" ;
 import LoginSignup from './screens/login_signup';
 import Product_Description from "./screens/product_description";
+import Product_Description_new from "./screens/product_description_new";
 import Constant from 'expo-constants';
 import { AsyncStorage } from 'react-native';
 
@@ -84,6 +85,7 @@ const HomeStack = () => {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
       <Stack.Screen name="ProductDescription" component={Product_Description} options={{ headerShown: false }} />
+      <Stack.Screen name="ProductDescription_new" component={Product_Description_new} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginSignup} options={{ headerShown: false }} />
       <Stack.Screen name="Category" component={Category} options={{ headerShown: false }} />
       <Stack.Screen name="Inquiry" component={Offers} options={{ headerShown: false }} />

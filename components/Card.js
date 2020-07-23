@@ -293,6 +293,76 @@ export class ScrollHorizontalCard extends React.Component{
         ); 
     }
 }
+export class ScrollHorizontalCardNew extends React.Component{
+    componentWillMount(){
+        this.getProducts();
+    }
+    constructor(props) {
+    super(props);
+     
+    this.state = {
+        products:[],
+        _id:"",
+        imageUri:require('./../assets/swiper-1.png')
+    };
+     }
+    getProducts = () =>{
+    axios.get(`${baseUrl}api/v1/product/getall`).
+    then((res)=>{
+       var products = res.data.data;
+        this.setState({products})
+        // var check = products[0].images[0]
+        // console.log("\n\n\n\n"+ JSON.stringify(check).substring(7).slice(0, -1) );
+      }).
+      catch(e=>{
+          Alert.alert('Error : '+ e);
+      })
+    }
+    render(){
+        return(
+            this.state.products.filter((status)=> status.status === 'Active').map((obj)=>
+            <TouchableOpacity
+            onPress={()=>{
+                this.props.navigation.navigate('ProductDescription_new', {
+                    itemId: obj._id,
+                });
+            }}
+            style={{elevation:3, marginVertical:5, marginHorizontal:5, width: 150, height: 200, backgroundColor:"#fff"}}>
+            <View style={{ width:150,height:120,paddingVertical:5, paddingLeft:1,paddingRight:3}}>
+            { obj.images.length >=1 ? ( 
+                <Image
+                    style={styles.image}
+                    source={{uri : `${baseUrl}${(obj.images[0]).substring(7)}`
+                     }}
+                    // source={uri:{ (obj.images.length >= 1) ? "":""}}
+                    // source={{uri:this.state.imageUri}}  
+                /> 
+             ) :  (
+                 <Image
+                    style={styles.image}
+                    source={{uri : `${baseUrl}images/uploads/dummy.jpeg`}}
+
+                    // source={require('./../assets/swiper-1.png')}
+                    // require('./../assets/swiper-1.png')
+                    // source={uri:{ (obj.images.length >= 1) ? "":""}}
+                    // source={{uri:this.state.imageUri}}  
+                />  )  }
+           
+            </View> 
+                <View style={{paddingHorizontal:10, alignItems:"center"}}>
+                <Text style={{width:130, fontSize:13}}>{obj.name}</Text>
+            </View>                      
+                <View style={{paddingHorizontal:10}}>
+                <Text style={{marginTop:15, fontSize:14}}>Rs. {obj.price}</Text>
+            </View>
+               <View style={{alignItems:"center", marginTop:15}}>
+            </View>  
+        </TouchableOpacity>
+
+            )    
+        ); 
+    }
+}
 export const TransparentCard = (props) => (
     <TouchableOpacity
         onPress={()=>props.navigation.navigate('ProductDescription') }

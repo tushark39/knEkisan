@@ -6,7 +6,7 @@ import { Header5 } from "../components/Header_components";
 import { Form, Item, Label, Input, Button } from 'native-base';
 import { AsyncStorage } from 'react-native';
 // import { Table, Row, Rows } from 'react-native-table-component';
-import {  ScrollHorizontalCardNew } from "../components/Card"
+import {  ScrollHorizontalCardView} from "../components/Card"
 // import { TouchableOpacity } from 'react-native-gesture-handler';
 import Swiper from 'react-native-swiper'
 import axios from 'axios'
@@ -543,7 +543,7 @@ export default class Product_Description extends React.Component {
                     <View style={{ padding: 10, marginTop: 5, backgroundColor: '#fff' }}>
                         <Text style={{ fontSize: 16, marginBottom: 10 }}>More Products</Text>
                         {/* <ScrollHorizontal_Product_SuggestionView /> */}
-                      <ScrollHorizontalCardNew navigation={this.props.navigation}/>
+                      <ScrollHorizontalCardView navigation={this.props.navigation}/>
 
                     </View>
                     {/* <View style={{padding:10, marginTop:5, backgroundColor:'#fff'}}>
